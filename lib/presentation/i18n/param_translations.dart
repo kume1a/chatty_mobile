@@ -1,0 +1,3 @@
+class ParamTranslations {
+  ParamTranslations._();
+}
