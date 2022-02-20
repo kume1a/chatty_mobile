@@ -15,8 +15,33 @@ class AppTranslations extends Translations {
 
   final Map<String, String> _enUs = <String, String>{
     TkCommon.error: 'Error',
+    TkCommon.signIn: 'Sign in',
+    TkCommon.signUp: 'Sign up',
+    TkCommon.email: 'Email',
+    TkCommon.password: 'Password',
+    TkCommon.firstName: 'First name',
+    TkCommon.lastName: 'Last name',
+    TkCommon.repeatPassword: 'Repeat password',
+    TkCommon.messages: 'Messages',
+    TkCommon.search: 'Search',
+    TkCommon.recent: 'Recent',
+    TkCommon.online: 'Online',
 
     TkCommonErrors.unknown: 'Unknown error',
     TkCommonErrors.network: 'Network error',
+
+    TkSignIn.google: 'Google',
+    TkSignIn.facebook: 'Facebook',
+    TkSignIn.captionContinueWith: 'Or continue with',
+    TkSignIn.captionDontHaveAccount: "Don't have an account? ",
+
+    TkSignUp.captionAgreeWithProvided: 'I agree with provided ',
+    TkSignUp.and: ' and ',
+    TkSignUp.termsOfService: 'terms of service',
+    TkSignUp.privacyPolicy: 'privacy policy',
+
+    TkTermsOfService.header: 'Terms of service',
+
+    TkPrivacyPolicy.header: 'Privacy policy',
   };
 }
