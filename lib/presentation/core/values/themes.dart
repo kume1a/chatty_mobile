@@ -5,7 +5,7 @@ import 'palette.dart';
 abstract class AppTheme {
   static final RoundedRectangleBorder _defaultButtonShape =
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
-  static const EdgeInsets _defaultButtonPadding = EdgeInsets.all(12);
+  static const EdgeInsets _defaultButtonPadding = EdgeInsets.all(16);
 
   static final BorderRadius _defaultInputBorderRadius = BorderRadius.circular(4);
 
@@ -30,13 +30,18 @@ abstract class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: _defaultInputBorderRadius,
+        borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: _defaultInputBorderRadius,
+        borderSide: BorderSide.none,
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: _defaultInputBorderRadius,
         borderSide: const BorderSide(color: Palette.primary),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: _defaultInputBorderRadius,
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       hintStyle: const TextStyle(fontSize: 14, color: Palette.textSecondary),
@@ -66,7 +71,7 @@ abstract class AppTheme {
         backgroundColor: MaterialStateProperty.resolveWith(
           (Set<MaterialState> states) {
             return states.contains(MaterialState.disabled)
-                ? Palette.primary.withOpacity(.6)
+                ? Palette.primary.withOpacity(.8)
                 : Palette.primary;
           },
         ),
@@ -101,6 +106,17 @@ abstract class AppTheme {
     sliderTheme: const SliderThemeData(
       activeTrackColor: Palette.secondary,
       thumbColor: Palette.secondary,
+    ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.resolveWith(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return Palette.primary;
+          }
+
+          return Palette.disabled;
+        },
+      ),
     ),
   );
 }

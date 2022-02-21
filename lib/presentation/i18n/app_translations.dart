@@ -30,9 +30,15 @@ class AppTranslations extends Translations {
     TkCommonErrors.unknown: 'Unknown error',
     TkCommonErrors.network: 'Network error',
 
+    TkValidationErrors.fieldIsRequired: 'Field is required',
+    TkValidationErrors.invalidEmail: 'Invalid email',
+    TkValidationErrors.shortPassword: 'Password is too short',
+    TkValidationErrors.repeatedPasswordDoesNotMatch: 'Repeated password does not match password',
+    TkValidationErrors.shortName: 'Name is too short',
+
     TkSignIn.google: 'Google',
     TkSignIn.facebook: 'Facebook',
-    TkSignIn.captionContinueWith: 'Or continue with',
+    TkSignIn.captionContinueWith: 'or continue with',
     TkSignIn.captionDontHaveAccount: "Don't have an account? ",
 
     TkSignUp.captionAgreeWithProvided: 'I agree with provided ',

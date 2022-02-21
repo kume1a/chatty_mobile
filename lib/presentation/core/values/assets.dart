@@ -17,4 +17,6 @@ abstract class Assets {
   static const String iconMicrophone = '$_icons/microphone.svg';
   static const String iconSend = '$_icons/send.svg';
   static const String iconSearch = '$_icons/search.svg';
+  static const String iconEye = '$_icons/eye.svg';
+  static const String iconEyeOff = '$_icons/eye_off.svg';
 }

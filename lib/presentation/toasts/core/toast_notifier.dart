@@ -100,9 +100,11 @@ class ToastNotifier {
       title,
       message,
       onTap: (_) => onTap?.call(),
-      margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      margin: EdgeInsets.zero,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+      colorText: Colors.white,
       animationDuration: const Duration(milliseconds: 800),
+      borderRadius: 0,
       icon: icon != null
           ? Padding(
               padding: const EdgeInsets.only(left: 12, right: 6),
@@ -115,12 +117,17 @@ class ToastNotifier {
             style: ButtonStyle(
               shape: MaterialStateProperty.all(const CircleBorder()),
               padding: MaterialStateProperty.all(const EdgeInsets.all(8)),
+              backgroundColor: MaterialStateProperty.all(
+                GlobalNavigator.context != null
+                    ? GlobalNavigator.theme.primaryColorLight
+                    : Palette.primaryLight,
+              ),
             ),
             child: const Icon(Icons.close),
           ),
       backgroundColor: GlobalNavigator.context != null
-          ? GlobalNavigator.theme.primaryColor
-          : Palette.primary,
+          ? GlobalNavigator.theme.primaryColorLight
+          : Palette.primaryLight,
     );
   }
 }

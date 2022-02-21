@@ -15,6 +15,10 @@ class ScreensNavigator {
 
   Future<void> toSignUpPage() => GlobalNavigator.pushNamed(Routes.signUp);
 
+  Future<void> toTermsOfServicePage() => GlobalNavigator.pushNamed(Routes.termsOfService);
+
+  Future<void> toPrivacyPolicyPage() => GlobalNavigator.pushNamed(Routes.privacyPolicy);
+
   Future<void> toChatsPage() => GlobalNavigator.pushNamedAndRemoveAll(Routes.chats);
 
   Future<void> toChatPage(ChatPageArgs args) =>

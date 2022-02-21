@@ -18,6 +18,14 @@ abstract class TkCommonErrors {
   static const String network = 'TkCommonErrors.network';
 }
 
+abstract class TkValidationErrors {
+  static const String fieldIsRequired = 'TkValidationErrors.fieldIsRequired';
+  static const String invalidEmail = 'TkValidationErrors.invalidEmail';
+  static const String shortPassword = 'TkValidationErrors.shortPassword';
+  static const String repeatedPasswordDoesNotMatch = 'TkValidationErrors.repeatedPasswordDoesNotMatch';
+  static const String shortName = 'TkValidationErrors.shortName';
+}
+
 abstract class TkSignIn {
   static const String google = 'TkSignIn.google';
   static const String facebook = 'TkSignIn.facebook';
