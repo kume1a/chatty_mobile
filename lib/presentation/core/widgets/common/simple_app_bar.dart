@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'default_back_button.dart';
+
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SimpleAppBar({
     Key? key,
@@ -11,11 +13,15 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool centerTitle;
 
   @override
-  Size get preferredSize => const Size(0, 56);
+  Size get preferredSize => const Size(0, 64);
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return AppBar(
+      elevation: 0,
+      backgroundColor: theme.primaryColor,
       centerTitle: centerTitle,
       title: title != null
           ? Text(
@@ -26,6 +32,8 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             )
           : null,
+      automaticallyImplyLeading: false,
+      leading: const DefaultBackButton(),
     );
   }
 }
