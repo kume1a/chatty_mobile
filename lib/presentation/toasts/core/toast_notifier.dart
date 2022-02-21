@@ -65,10 +65,10 @@ class ToastNotifier {
   void notifyNetworkError({
     String? message,
     String? title,
-    Icon? icon = const Icon(Icons.wifi_off, color: Palette.warning),
+    Icon? icon = const Icon(Icons.wifi_off, color: Palette.error),
   }) {
     _notify(
-      message: message ?? TkCommonErrors.network.i18n,
+      message: message ?? TkErrors.network.i18n,
       title: title ?? TkCommon.error.i18n,
       icon: icon,
     );
@@ -77,10 +77,10 @@ class ToastNotifier {
   void notifyUnknownError({
     String? message,
     String? title,
-    Icon? icon = const Icon(Icons.info_outline, color: Palette.warning),
+    Icon? icon = const Icon(Icons.info_outline, color: Palette.error),
   }) {
     _notify(
-      message: message ?? TkCommonErrors.unknown.i18n,
+      message: message ?? TkErrors.unknown.i18n,
       title: title ?? TkCommon.error.i18n,
       icon: icon,
     );

@@ -27,8 +27,8 @@ class AppTranslations extends Translations {
     TkCommon.recent: 'Recent',
     TkCommon.online: 'Online',
 
-    TkCommonErrors.unknown: 'Unknown error',
-    TkCommonErrors.network: 'Network error',
+    TkErrors.unknown: 'Unknown error',
+    TkErrors.network: 'Network error',
 
     TkValidationErrors.fieldIsRequired: 'Field is required',
     TkValidationErrors.invalidEmail: 'Invalid email',

@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../domain/failures/authentication/sign_up_failure.dart';
+import '../../../domain/managers/authentication_manager.dart';
 import '../../core/routes/screens_navigator.dart';
+import '../../dialogs/core/dialog_manager.dart';
+import '../../toasts/failure_notifiers/sign_up_failure_notifier.dart';
 
 part 'sign_up_page_cubit.freezed.dart';
 
@@ -38,9 +42,15 @@ class SignUpPageState with _$SignUpPageState {
 class SignUpPageCubit extends Cubit<SignUpPageState> {
   SignUpPageCubit(
     this._screensNavigator,
+    this._dialogManager,
+    this._authenticationManager,
+    this._signUpFailureNotifier,
   ) : super(SignUpPageState.initial());
 
   final ScreensNavigator _screensNavigator;
+  final DialogManager _dialogManager;
+  final AuthenticationManager _authenticationManager;
+  final SignUpFailureNotifier _signUpFailureNotifier;
 
   String _repeatedPasswordValue = '';
 
@@ -77,5 +87,28 @@ class SignUpPageCubit extends Cubit<SignUpPageState> {
 
   Future<void> onSignUpPressed() async {
     emit(state.copyWith(showErrors: true));
+
+    if (!state.firstName.isValid ||
+        !state.lastName.isValid ||
+        !state.email.isValid ||
+        !state.password.isValid ||
+        !state.repeatedPassword.isValid ||
+        !state.agreedToConditions) {
+      return;
+    }
+
+    _dialogManager.showLoadingOverlay();
+    final Either<SignUpFailure, Unit> result = await _authenticationManager.signUp(
+      firstName: state.firstName.getOrThrow.trim(),
+      lastName: state.lastName.getOrThrow.trim(),
+      email: state.email.getOrThrow.trim(),
+      password: state.password.getOrThrow.trim(),
+    );
+    await _dialogManager.closeOverlays();
+
+    result.fold(
+      _signUpFailureNotifier.notify,
+      (_) => _screensNavigator.toChatsPage(),
+    );
   }
 }

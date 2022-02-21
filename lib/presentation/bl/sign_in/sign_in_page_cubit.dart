@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../domain/failures/authentication/sign_in_failure.dart';
+import '../../../domain/managers/authentication_manager.dart';
 import '../../core/routes/screens_navigator.dart';
+import '../../dialogs/core/dialog_manager.dart';
 import '../../toasts/core/toast_notifier.dart';
+import '../../toasts/failure_notifiers/sign_in_failure_notifier.dart';
 
 part 'sign_in_page_cubit.freezed.dart';
 
@@ -30,10 +34,16 @@ class SignInPageCubit extends Cubit<SignInPageState> {
   SignInPageCubit(
     this._screensNavigator,
     this._toastNotifier,
+    this._dialogManager,
+    this._authenticationManager,
+    this._signInFailureNotifier,
   ) : super(SignInPageState.initial());
 
   final ScreensNavigator _screensNavigator;
   final ToastNotifier _toastNotifier;
+  final DialogManager _dialogManager;
+  final AuthenticationManager _authenticationManager;
+  final SignInFailureNotifier _signInFailureNotifier;
 
   void onEmailChanged(String value) => emit(state.copyWith(email: EmailVVO(value)));
 
@@ -58,6 +68,22 @@ class SignInPageCubit extends Cubit<SignInPageState> {
 
   Future<void> onSignInPressed() async {
     emit(state.copyWith(showErrors: true));
+
+    if (!state.email.isValid || !state.password.isValid) {
+      return;
+    }
+
+    _dialogManager.showLoadingOverlay();
+    final Either<SignInFailure, Unit> result = await _authenticationManager.signIn(
+      email: state.email.getOrThrow.trim(),
+      password: state.password.getOrThrow.trim(),
+    );
+    await _dialogManager.closeOverlays();
+
+    result.fold(
+      _signInFailureNotifier.notify,
+      (_) => _screensNavigator.toChatsPage(),
+    );
   }
 
   void onSignUpPressed() => _screensNavigator.toSignUpPage();

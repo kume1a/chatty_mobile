@@ -13,9 +13,11 @@ abstract class TkCommon {
   static const String online = 'TkCommon.online';
 }
 
-abstract class TkCommonErrors {
-  static const String unknown = 'TkCommonErrors.unknown';
-  static const String network = 'TkCommonErrors.network';
+abstract class TkErrors {
+  static const String unknown = 'TkErrors.unknown';
+  static const String network = 'TkErrors.network';
+  static const String invalidEmailOrPassword = '';
+  static const String emailAlreadyUsed = '';
 }
 
 abstract class TkValidationErrors {
@@ -38,7 +40,6 @@ abstract class TkSignUp {
   static const String and = 'TkSignUp.and';
   static const String termsOfService = 'TkSignUp.termsOfService';
   static const String privacyPolicy = 'TkSignUp.privacyPolicy';
-
 }
 
 abstract class TkTermsOfService {
