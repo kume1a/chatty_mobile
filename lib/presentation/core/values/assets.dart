@@ -2,6 +2,8 @@ abstract class Assets {
   static const String _icons = 'assets/icons';
   static const String _images = 'assets/images'; // ignore: unused_field
 
+  static const String imageDefaultProfile = '$_images/default_profile.jpeg';
+
   static const String iconCamera = '$_icons/camera.svg';
   static const String iconClose = '$_icons/close.svg';
   static const String iconDashboard = '$_icons/dashboard.svg';
