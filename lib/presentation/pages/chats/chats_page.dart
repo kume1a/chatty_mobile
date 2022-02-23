@@ -28,20 +28,22 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
 
     const EdgeInsets padding = EdgeInsets.symmetric(horizontal: 18);
 
     return Scaffold(
       backgroundColor: theme.primaryColor,
       body: SafeArea(
+        bottom: false,
         child: Column(
-          children: const <Widget>[
-            Padding(
+          children: <Widget>[
+            const Padding(
               padding: padding,
               child: Header(),
             ),
-            SizedBox(height: 12),
-            Expanded(
+            const SizedBox(height: 12),
+            const Expanded(
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverList(
@@ -62,7 +64,11 @@ class _Content extends StatelessWidget {
                   Chats(),
                 ],
               ),
-            )
+            ),
+            Container(
+              height: mediaQueryData.padding.bottom,
+              color: theme.scaffoldBackgroundColor,
+            ),
           ],
         ),
       ),

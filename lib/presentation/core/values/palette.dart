@@ -12,6 +12,7 @@ class Palette {
   static const Color secondary = Color(0xFFFF411C);
   static const Color secondaryVariant = Color(0xFFFFF4F2);
   static const Color secondaryContainer = Color(0xFFF4F5FA);
+  static const Color onSecondaryContainer = Color(0xFFE7E7F0);
 
   static const Color textSecondary = Color(0xFF777789);
   static const Color disabled = Color(0xFF777789);

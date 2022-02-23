@@ -23,6 +23,7 @@ abstract class AppTheme {
       primaryContainer: Palette.primaryContainer,
       secondary: Palette.secondary,
       secondaryContainer: Palette.secondaryContainer,
+      onSecondaryContainer: Palette.onSecondaryContainer,
     ),
     dialogTheme: DialogTheme(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),

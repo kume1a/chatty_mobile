@@ -5,6 +5,7 @@ abstract class Assets {
   static const String imageDefaultProfile = '$_images/default_profile.jpeg';
 
   static const String iconCamera = '$_icons/camera.svg';
+  static const String iconVideoCamera = '$_icons/video_camera.svg';
   static const String iconClose = '$_icons/close.svg';
   static const String iconDashboard = '$_icons/dashboard.svg';
   static const String iconDocument = '$_icons/document.svg';
