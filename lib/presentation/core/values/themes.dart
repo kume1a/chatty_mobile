@@ -17,6 +17,7 @@ abstract class AppTheme {
     secondaryHeaderColor: Palette.textSecondary,
     disabledColor: Palette.disabled,
     splashFactory: NoSplash.splashFactory,
+    highlightColor: Colors.grey.shade200,
     colorScheme: const ColorScheme.light().copyWith(
       primary: Palette.primary,
       primaryContainer: Palette.primaryContainer,

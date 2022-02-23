@@ -6,24 +6,16 @@ import '../../core/routes/route_arguments/chat_page_args.dart';
 import '../../core/routes/screens_navigator.dart';
 
 @injectable
-class ChatsPageCubit extends Cubit<Unit> {
-  ChatsPageCubit(
+class SearchPageCubit extends Cubit<Unit> {
+  SearchPageCubit(
     this._screensNavigator,
   ) : super(unit);
 
   final ScreensNavigator _screensNavigator;
 
-  void onProfilePressed() {}
-
-  void onSearchPressed() => _screensNavigator.toSearchPage();
+  void onSearchQueryChanged(String value) {}
 
   void onUserPressed() {
-    const ChatPageArgs args = ChatPageArgs(chatId: 1);
-
-    _screensNavigator.toChatPage(args);
-  }
-
-  void onChatPressed() {
     const ChatPageArgs args = ChatPageArgs(chatId: 1);
 
     _screensNavigator.toChatPage(args);

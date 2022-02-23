@@ -23,4 +23,6 @@ class ScreensNavigator {
 
   Future<void> toChatPage(ChatPageArgs args) =>
       GlobalNavigator.pushNamed(Routes.chat, arguments: args);
+
+  Future<void> toSearchPage() => GlobalNavigator.pushNamed(Routes.search);
 }
