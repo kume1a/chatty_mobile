@@ -14,14 +14,14 @@ class RecommendedUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 75,
+      height: 94,
       child: BlocBuilder<ChatsPageRecommendedUsersCubit, DataState<FetchFailure, List<User>>>(
         builder: (_, DataState<FetchFailure, List<User>> state) {
           return state.maybeWhen(
             success: (List<User> data) => ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: data.length,
               itemBuilder: (_, int index) => _Item(user: data[index]),
             ),
             orElse: () => const SizedBox.shrink(),
@@ -42,14 +42,15 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9),
+      width: 80,
       child: GestureDetector(
         onTap: context.read<ChatsPageCubit>().onUserPressed,
         child: Column(
           children: <Widget>[
-            const SafeImage.withAssetPlaceholder(
-              url: null,
+            SafeImage.withAssetPlaceholder(
+              url: user.profileImageUrl,
               width: 46,
               height: 46,
               placeholderAssetPath: Assets.imageDefaultProfile,
@@ -58,6 +59,8 @@ class _Item extends StatelessWidget {
             Text(
               user.fullName,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,

@@ -13,6 +13,7 @@ class UserMapper extends BaseMapper<UserSchema, User> {
       firstName: l.firstName ?? '',
       lastName: l.lastName ?? '',
       email: l.email ?? '',
+      profileImageUrl: l.profileImageUrl,
     );
   }
 }

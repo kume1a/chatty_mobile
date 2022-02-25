@@ -11,6 +11,7 @@ class UserSchema with _$UserSchema {
     String? firstName,
     String? lastName,
     String? email,
+    String? profileImageUrl,
   }) = _UserSchema;
 
   factory UserSchema.fromJson(Map<String, dynamic> json) => _$UserSchemaFromJson(json);

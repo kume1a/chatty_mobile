@@ -9,6 +9,7 @@ class User with _$User {
     required String firstName,
     required String lastName,
     required String email,
+    required String? profileImageUrl,
   }) = _User;
 
   const User._();
