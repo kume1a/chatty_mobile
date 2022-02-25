@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../bl/chat/chat_page_cubit.dart';
+import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class FieldInput extends StatelessWidget {
@@ -20,8 +20,8 @@ class FieldInput extends StatelessWidget {
           Positioned.fill(
             child: TextField(
               maxLength: 2055,
-              controller: context.read<ChatPageCubit>().inputEditingController,
-              focusNode: context.read<ChatPageCubit>().inputFocusNode,
+              controller: context.read<ChatPageInputCubit>().inputEditingController,
+              focusNode: context.read<ChatPageInputCubit>().inputFocusNode,
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 46),
                 counterText: '',
@@ -33,7 +33,7 @@ class FieldInput extends StatelessWidget {
             left: 12,
             bottom: 8,
             child: GestureDetector(
-              onTap: context.read<ChatPageCubit>().onMorePressed,
+              onTap: context.read<ChatPageInputCubit>().onMorePressed,
               child: Container(
                 width: 26,
                 height: 26,
@@ -42,8 +42,8 @@ class FieldInput extends StatelessWidget {
                   color: theme.primaryColor,
                   borderRadius: BorderRadius.circular(2),
                 ),
-                child: BlocBuilder<ChatPageCubit, ChatPageState>(
-                  builder: (_, ChatPageState state) {
+                child: BlocBuilder<ChatPageInputCubit, ChatPageInputState>(
+                  builder: (_, ChatPageInputState state) {
                     return SvgPicture.asset(
                       state.isSendOptionsShowing ? Assets.iconClose : Assets.iconDashboard,
                       width: 12,

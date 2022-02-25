@@ -6,5 +6,6 @@ part 'chat.freezed.dart';
 class Chat with _$Chat {
   const factory Chat({
     required int id,
+    required DateTime? createdAt,
   }) = _Chat;
 }

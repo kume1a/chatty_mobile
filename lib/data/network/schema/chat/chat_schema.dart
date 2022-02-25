@@ -8,6 +8,7 @@ part 'chat_schema.g.dart';
 class ChatSchema with _$ChatSchema {
   const factory ChatSchema({
     int? id,
+    String? createdAt,
   }) = _ChatSchema;
 
   factory ChatSchema.fromJson(Map<String, dynamic> json) => _$ChatSchemaFromJson(json);

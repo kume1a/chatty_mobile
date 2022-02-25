@@ -5,6 +5,7 @@ import '../../../core/constants.dart';
 import '../schema/authentication/authentication_payload_schema.dart';
 import '../schema/body/sign_in_body.dart';
 import '../schema/body/sign_up_body.dart';
+import '../schema/chat/chat_schema.dart';
 import '../schema/chat/chats_page_schema.dart';
 import '../schema/message/messages_page_schema.dart';
 import '../schema/user/user_schema.dart';
@@ -48,5 +49,10 @@ abstract class ApiService {
     @Path('chatId') int chatId,
     @Query('lastId') int? lastId,
     @Query('takeCount') int takeCount,
+  );
+
+  @GET('/chats/{userId}')
+  Future<ChatSchema> getChatByUserId(
+    @Path('userId') int userId,
   );
 }

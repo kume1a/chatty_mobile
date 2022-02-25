@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class ButtonSend extends StatelessWidget {
@@ -10,18 +12,21 @@ class ButtonSend extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return Container(
-      width: 42,
-      height: 42,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: theme.colorScheme.secondaryContainer,
-      ),
-      child: SvgPicture.asset(
-        Assets.iconSend,
-        width: 20,
-        height: 20,
+    return GestureDetector(
+      onTap: context.read<ChatPageInputCubit>().onSendPressed,
+      child: Container(
+        width: 42,
+        height: 42,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: theme.colorScheme.secondaryContainer,
+        ),
+        child: SvgPicture.asset(
+          Assets.iconSend,
+          width: 20,
+          height: 20,
+        ),
       ),
     );
   }

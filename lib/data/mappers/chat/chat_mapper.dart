@@ -8,8 +8,11 @@ import '../../network/schema/chat/chat_schema.dart';
 class ChatMapper extends BaseMapper<ChatSchema, Chat> {
   @override
   Chat mapToRight(ChatSchema l) {
+    final DateTime? createdAt = l.createdAt != null ? DateTime.tryParse(l.createdAt!) : null;
+
     return Chat(
       id: l.id ?? -1,
+      createdAt: createdAt,
     );
   }
 }

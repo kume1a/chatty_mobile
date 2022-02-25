@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../bl/chat/chat_page_cubit.dart';
+import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class SendOptionsWrapper extends StatefulWidget {
@@ -51,8 +52,8 @@ class _SendOptionsWrapperState extends State<SendOptionsWrapper>
     final ThemeData theme = Theme.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
 
-    return BlocListener<ChatPageCubit, ChatPageState>(
-      listener: (_, ChatPageState state) {
+    return BlocListener<ChatPageInputCubit, ChatPageInputState>(
+      listener: (_, ChatPageInputState state) {
         if (state.isSendOptionsShowing) {
           _controller.forward();
         } else {

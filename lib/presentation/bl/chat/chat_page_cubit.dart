@@ -1,42 +1,41 @@
-import 'package:flutter/widgets.dart';
+import 'package:common_models/common_models.dart';
+import 'package:common_utilities/common_utilities.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'chat_page_cubit.freezed.dart';
-
-@freezed
-class ChatPageState with _$ChatPageState {
-  const factory ChatPageState({
-    required bool isSendOptionsShowing,
-  }) = _ChatPageState;
-
-  factory ChatPageState.initial() => const ChatPageState(
-        isSendOptionsShowing: false,
-      );
-}
+import '../../../core/composite_disposable.dart';
+import '../../../domain/models/chat/chat.dart';
+import '../../../domain/repositories/chat_repository.dart';
+import '../../core/routes/route_arguments/chat_page_args.dart';
+import '../core/events/event_chat.dart';
 
 @injectable
-class ChatPageCubit extends Cubit<ChatPageState> {
-  ChatPageCubit() : super(ChatPageState.initial());
+class ChatPageCubit extends Cubit<DataState<FetchFailure, Chat>>
+    with CompositeDisposable<DataState<FetchFailure, Chat>> {
+  ChatPageCubit(
+    this._chatRepository,
+    this._eventBus,
+  ) : super(const DataState<FetchFailure, Chat>.idle());
 
-  final FocusNode inputFocusNode = FocusNode();
-  final TextEditingController inputEditingController = TextEditingController();
+  final ChatRepository _chatRepository;
+  final EventBus _eventBus;
 
-  @override
-  Future<void> close() async {
-    inputFocusNode.dispose();
+  late final ChatPageArgs _args;
 
-    return super.close();
+  Future<void> init(ChatPageArgs args) async {
+    _args = args;
+
+    addSubscription(_eventBus.on<EventChat>().listen((EventChat event) {
+      event.whenOrNull(
+        chatLoaded: (Either<FetchFailure, Chat> chat) =>
+            emit(DataState<FetchFailure, Chat>.fromEither(chat)),
+      );
+    }));
+
+    await _fetchChat();
   }
 
-  void onMorePressed() {
-    if (!state.isSendOptionsShowing) {
-      inputFocusNode.unfocus();
-    }
-
-    emit(state.copyWith(isSendOptionsShowing: !state.isSendOptionsShowing));
-  }
+  Future<void> onRefresh() async => _fetchChat();
 
   void onCameraPressed() {}
 
@@ -45,4 +44,13 @@ class ChatPageCubit extends Cubit<ChatPageState> {
   void onDocumentPressed() {}
 
   void onVoicePressed() {}
+
+  Future<Chat?> _fetchChat() async {
+    final Either<FetchFailure, Chat> chat =
+        await _chatRepository.getChatByUserId(userId: _args.userId);
+
+    _eventBus.fire(EventChat.chatLoaded(chat));
+
+    return chat.get;
+  }
 }

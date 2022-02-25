@@ -6,4 +6,8 @@ abstract class ChatRepository {
   Future<Either<FetchFailure, DataPage<Chat>>> getChats({
     required int? lastId,
   });
+
+  Future<Either<FetchFailure, Chat>> getChatByUserId({
+    required int userId,
+  });
 }

@@ -1,6 +1,11 @@
 import 'dart:math';
 
+import 'package:common_models/common_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../domain/models/message/message.dart';
+import '../../../bl/chat/chat_page_messages_cubit.dart';
 
 final Random random = Random();
 
@@ -9,16 +14,28 @@ class Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 20,
-      reverse: true,
-      itemBuilder: (_, int index) => const _TextMessage(),
+    return BlocBuilder<ChatPageMessagesCubit, DataState<FetchFailure, DataPage<Message>>>(
+      builder: (BuildContext context, DataState<FetchFailure, DataPage<Message>> state) {
+        return state.maybeWhen(
+          success: (DataPage<Message> data) => ListView.builder(
+            itemCount: data.items.length,
+            reverse: true,
+            itemBuilder: (_, int index) => _TextMessage(message: data.items[index]),
+          ),
+          orElse: () => const SizedBox.shrink(),
+        );
+      },
     );
   }
 }
 
 class _TextMessage extends StatelessWidget {
-  const _TextMessage({Key? key}) : super(key: key);
+  const _TextMessage({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
