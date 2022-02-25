@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-final random = Random();
+final Random random = Random();
 
 class Messages extends StatelessWidget {
   const Messages({Key? key}) : super(key: key);

@@ -29,7 +29,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const padding = EdgeInsets.symmetric(horizontal: 18);
+    const EdgeInsets padding = EdgeInsets.symmetric(horizontal: 18);
 
     return TapOutsideToClearFocus(
       child: Scaffold(

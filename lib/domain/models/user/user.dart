@@ -10,4 +10,11 @@ class User with _$User {
     required String lastName,
     required String email,
   }) = _User;
+
+  const User._();
+
+  String get fullName {
+    final String space = firstName.isNotEmpty && lastName.isNotEmpty ? ' ' : '';
+    return '$firstName$space$lastName';
+  }
 }

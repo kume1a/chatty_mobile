@@ -18,13 +18,13 @@ class ChatsPageCubit extends Cubit<Unit> {
   void onSearchPressed() => _screensNavigator.toSearchPage();
 
   void onUserPressed() {
-    const ChatPageArgs args = ChatPageArgs(chatId: 1);
+    const ChatPageArgs args = ChatPageArgs(userId: 1);
 
     _screensNavigator.toChatPage(args);
   }
 
   void onChatPressed() {
-    const ChatPageArgs args = ChatPageArgs(chatId: 1);
+    const ChatPageArgs args = ChatPageArgs(userId: 1);
 
     _screensNavigator.toChatPage(args);
   }
