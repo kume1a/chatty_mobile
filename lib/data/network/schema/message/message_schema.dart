@@ -8,6 +8,7 @@ part 'message_schema.g.dart';
 class MessageSchema with _$MessageSchema {
   const factory MessageSchema({
     int? id,
+    int? userId,
     String? type,
     String? textMessage,
     String? imageUrl,

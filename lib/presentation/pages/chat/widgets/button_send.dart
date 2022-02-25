@@ -22,10 +22,19 @@ class ButtonSend extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           color: theme.colorScheme.secondaryContainer,
         ),
-        child: SvgPicture.asset(
-          Assets.iconSend,
-          width: 20,
-          height: 20,
+        child: BlocBuilder<ChatPageInputCubit, ChatPageInputState>(
+          buildWhen: (ChatPageInputState previous, ChatPageInputState current) =>
+              previous.isSendButtonEnabled != current.isSendButtonEnabled,
+          builder: (_, ChatPageInputState state) {
+            return SvgPicture.asset(
+              Assets.iconSend,
+              width: 20,
+              height: 20,
+              color: state.isSendButtonEnabled
+                  ? theme.primaryColor
+                  : theme.primaryColor.withOpacity(.6),
+            );
+          },
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:common_models/common_models.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,10 +17,10 @@ class MessagesPageMapper extends BaseMapper<MessagesPageSchema, DataPage<Message
   final MessageMapper _messageMapper;
 
   @override
-  DataPage<Message> mapToRight(MessagesPageSchema l) {
-    final List<Message> messages =
-        l.data?.map((MessageSchema e) => _messageMapper.mapToRight(e)).toList() ??
-            List<Message>.empty();
+  Future<DataPage<Message>> mapToRight(MessagesPageSchema l) async {
+    final List<Message> messages = l.data != null
+        ? await Future.wait(l.data!.map((MessageSchema e) => _messageMapper.mapToRight(e)))
+        : List<Message>.empty();
 
     return DataPage<Message>(
       items: messages,

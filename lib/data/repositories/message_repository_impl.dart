@@ -32,7 +32,13 @@ class MessageRepositoryImpl implements MessageRepository {
       takeCount: 20,
     );
 
-    return result.map((MessagesPageSchema r) => _messagesPageMapper.mapToRight(r));
+    if (result.isRight()) {
+      final DataPage<Message> mapped = await _messagesPageMapper.mapToRight(result.rightOrThrow);
+
+      return right(mapped);
+    }
+
+    return left(result.leftOrThrow);
   }
 
   @override
@@ -46,6 +52,12 @@ class MessageRepositoryImpl implements MessageRepository {
       textMessage: textMessage,
     );
 
-    return result.map((MessageSchema r) => _messageMapper.mapToRight(r));
+    if (result.isRight()) {
+      final Message mapped = await _messageMapper.mapToRight(result.rightOrThrow);
+
+      return right(mapped);
+    }
+
+    return left(result.leftOrThrow);
   }
 }

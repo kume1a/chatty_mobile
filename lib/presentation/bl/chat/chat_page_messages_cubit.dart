@@ -9,6 +9,7 @@ import '../../../domain/models/chat/chat.dart';
 import '../../../domain/models/message/message.dart';
 import '../../../domain/repositories/message_repository.dart';
 import '../core/events/event_chat.dart';
+import '../core/events/event_message.dart';
 
 @injectable
 class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Message>>>
@@ -27,6 +28,12 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
   bool _fetching = false;
 
   Future<void> init([Object? args]) async {
+    addSubscription(_eventBus.on<EventMessage>().listen((EventMessage event) {
+      event.whenOrNull(
+        sent: (Message message) => _addMessageAndEmit(message),
+      );
+    }));
+
     addSubscription(_eventBus.on<EventChat>().listen((EventChat event) {
       event.when(
         chatLoaded: (Either<FetchFailure, Chat> chat) {
@@ -80,5 +87,21 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
     );
 
     _fetching = false;
+  }
+
+  Future<void> _addMessageAndEmit(Message message) async {
+    final DataState<FetchFailure, DataPage<Message>>? newState =
+        await state.modifyIfHasDataAndGet((DataPage<Message> data) {
+      data.items.insert(0, message);
+
+      return data.copyWith(
+        items: data.items,
+        count: data.count + 1,
+      );
+    });
+
+    if (newState != null) {
+      emit(newState);
+    }
   }
 }
