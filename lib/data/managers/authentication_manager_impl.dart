@@ -70,4 +70,7 @@ class AuthenticationMangerImpl implements AuthenticationManager {
 
     return result.map((_) => unit);
   }
+
+  @override
+  Future<void> logout() async => _authenticationTokenStore.clear();
 }

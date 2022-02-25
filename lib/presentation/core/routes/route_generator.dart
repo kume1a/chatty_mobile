@@ -4,6 +4,7 @@ import '../../pages/chat/chat_page.dart';
 import '../../pages/chats/chats_page.dart';
 import '../../pages/init/init_page.dart';
 import '../../pages/privacy_policy/privacy_policy_page.dart';
+import '../../pages/profile/profile_page.dart';
 import '../../pages/search/search_page.dart';
 import '../../pages/sign_in/sign_in_page.dart';
 import '../../pages/sign_up/sign_up_page.dart';
@@ -21,6 +22,7 @@ abstract class Routes {
   static const String chats = 'chats';
   static const String chat = 'chat';
   static const String search = 'search';
+  static const String profile = 'profile';
 }
 
 class RouteGenerator {
@@ -42,6 +44,8 @@ class RouteGenerator {
         return _createChatPageRoute(settings);
       case Routes.search:
         return _createSearchPageRoute(settings);
+      case Routes.profile:
+        return _createProfilePageRoute(settings);
       default:
         throw Exception('route ${settings.name} is not supported');
     }
@@ -105,6 +109,13 @@ class RouteGenerator {
   static Route<void> _createSearchPageRoute(RouteSettings settings) {
     return FadeInPageRoute<void>(
       builder: (_) => const SearchPage(),
+      settings: settings,
+    );
+  }
+
+  static Route<void> _createProfilePageRoute(RouteSettings settings) {
+    return FadeInPageRoute<void>(
+      builder: (_) => const ProfilePage(),
       settings: settings,
     );
   }

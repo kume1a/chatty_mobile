@@ -13,7 +13,7 @@ class ChatsPageCubit extends Cubit<Unit> {
 
   final ScreensNavigator _screensNavigator;
 
-  void onProfilePressed() {}
+  void onProfilePressed() => _screensNavigator.toProfilePage();
 
   void onSearchPressed() => _screensNavigator.toSearchPage();
 
