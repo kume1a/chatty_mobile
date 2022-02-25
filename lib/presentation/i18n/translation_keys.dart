@@ -11,6 +11,7 @@ abstract class TkCommon {
   static const String search = 'TkCommon.search';
   static const String recent = 'TkCommon.recent';
   static const String online = 'TkCommon.online';
+  static const String logout = 'TkCommon.logout';
 }
 
 abstract class TkErrors {

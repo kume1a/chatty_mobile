@@ -11,6 +11,8 @@ import 'presentation/core/routes/navigator_key_holder.dart';
 import 'presentation/i18n/app_locales.dart';
 import 'presentation/i18n/app_translations.dart';
 
+// TODO: 25.02.22 reload current user cubit on logout
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureInjection(Environment.prod);

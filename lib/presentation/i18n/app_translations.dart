@@ -26,6 +26,7 @@ class AppTranslations extends Translations {
     TkCommon.search: 'Search',
     TkCommon.recent: 'Recent',
     TkCommon.online: 'Online',
+    TkCommon.logout: 'Logout',
 
     TkErrors.unknown: 'Unknown error',
     TkErrors.network: 'Network error',
