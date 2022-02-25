@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../domain/models/user/user.dart';
 import '../../../domain/repositories/user_repository.dart';
+import '../../../domain/stores/current_user_info_store.dart';
 import '../../core/routes/route_arguments/chat_page_args.dart';
 import '../../core/routes/screens_navigator.dart';
 
@@ -14,10 +15,12 @@ class SearchPageCubit extends Cubit<DataState<FetchFailure, List<User>>> {
   SearchPageCubit(
     this._screensNavigator,
     this._userRepository,
+    this._currentUserInfoStore,
   ) : super(const DataState<FetchFailure, List<User>>.idle());
 
   final ScreensNavigator _screensNavigator;
   final UserRepository _userRepository;
+  final CurrentUserInfoStore _currentUserInfoStore;
 
   String _lastQuery = '';
   Timer? _searchDebounce;
@@ -47,7 +50,14 @@ class SearchPageCubit extends Cubit<DataState<FetchFailure, List<User>>> {
     );
   }
 
-  void onUserPressed(User user) {
+  Future<void> onUserPressed(User user) async {
+    final int? currentUserId = await _currentUserInfoStore.getCurrentUserId();
+
+    if (currentUserId == user.id) {
+      _screensNavigator.toProfilePage();
+      return;
+    }
+
     final ChatPageArgs args = ChatPageArgs(
       userId: user.id,
     );

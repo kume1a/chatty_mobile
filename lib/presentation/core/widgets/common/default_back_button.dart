@@ -21,6 +21,7 @@ class DefaultBackButton extends StatelessWidget {
     return IconButton(
       onPressed: () => Navigator.of(context).maybePop(),
       splashRadius: 24,
+      highlightColor: Colors.white10,
       icon: Icon(
         _getIconData(Theme.of(context).platform),
       ),

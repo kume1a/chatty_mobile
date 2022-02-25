@@ -18,6 +18,7 @@ class FieldSearch extends StatelessWidget {
     const UnderlineInputBorder activeBorder = UnderlineInputBorder();
 
     return TextField(
+      autofocus: true,
       maxLength: 255,
       decoration: InputDecoration(
         border: inactiveBorder,
