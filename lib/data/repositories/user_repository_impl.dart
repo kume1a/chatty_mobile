@@ -48,4 +48,11 @@ class UserRepositoryImpl implements UserRepository {
     return result
         .map((List<UserSchema> r) => r.map((UserSchema e) => _userMapper.mapToRight(e)).toList());
   }
+
+  @override
+  Future<Either<FetchFailure, User>> getCurrentUser() async {
+    final Either<FetchFailure, UserSchema> result = await _userRemoteService.getCurrentUser();
+
+    return result.map((UserSchema r) => _userMapper.mapToRight(r));
+  }
 }

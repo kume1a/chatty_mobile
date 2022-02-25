@@ -26,4 +26,7 @@ class UserRemoteService extends BaseService {
     required int takeCount,
   }) async =>
       safeFetch(() => _apiService.getChatRecommendedUsers(takeCount));
+
+  Future<Either<FetchFailure, UserSchema>> getCurrentUser() async =>
+      safeFetch(() => _apiService.getCurrentUser());
 }

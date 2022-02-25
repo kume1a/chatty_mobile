@@ -12,4 +12,6 @@ abstract class UserRepository {
   });
 
   Future<Either<FetchFailure, List<User>>> getChatRecommendedUsers();
+
+  Future<Either<FetchFailure, User>> getCurrentUser();
 }

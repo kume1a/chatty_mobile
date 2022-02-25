@@ -55,4 +55,7 @@ abstract class ApiService {
   Future<ChatSchema> getChatByUserId(
     @Path('userId') int userId,
   );
+
+  @GET('/users/me')
+  Future<UserSchema> getCurrentUser();
 }
