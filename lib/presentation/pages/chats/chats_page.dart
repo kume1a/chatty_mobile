@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc_provider_alias.dart';
 import '../../../di/di_config.dart';
+import '../../bl/chats/chats_page_chats_cubit.dart';
 import '../../bl/chats/chats_page_cubit.dart';
+import '../../bl/chats/chats_page_recommended_users_cubit.dart';
 import 'widgets/widgets.dart';
 
 class ChatsPage extends StatelessWidget {
@@ -15,6 +17,12 @@ class ChatsPage extends StatelessWidget {
       providers: <BlocProviderAlias>[
         BlocProvider<ChatsPageCubit>(
           create: (_) => getIt<ChatsPageCubit>(),
+        ),
+        BlocProvider<ChatsPageRecommendedUsersCubit>(
+          create: (_) => getIt<ChatsPageRecommendedUsersCubit>()..init(),
+        ),
+        BlocProvider<ChatsPageChatsCubit>(
+          create: (_) => getIt<ChatsPageChatsCubit>()..init(),
         ),
       ],
       child: const _Content(),

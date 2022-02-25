@@ -1,7 +1,10 @@
+import 'package:common_models/common_models.dart';
 import 'package:common_widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/models/chat/chat.dart';
+import '../../../bl/chats/chats_page_chats_cubit.dart';
 import '../../../bl/chats/chats_page_cubit.dart';
 import '../../../core/values/assets.dart';
 
@@ -10,24 +13,36 @@ class Chats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (_, int index) => const _Item(),
-        childCount: 20,
-      ),
+    return BlocBuilder<ChatsPageChatsCubit, DataState<FetchFailure, DataPage<Chat>>>(
+      builder: (_, DataState<FetchFailure, DataPage<Chat>> state) {
+        return state.maybeWhen(
+          success: (DataPage<Chat> data) => SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, int index) => _Item(chat: data.items[index]),
+              childCount: data.items.length,
+            ),
+          ),
+          orElse: () => const SliverToBoxAdapter(),
+        );
+      },
     );
   }
 }
 
 class _Item extends StatelessWidget {
-  const _Item({Key? key}) : super(key: key);
+  const _Item({
+    Key? key,
+    required this.chat,
+  }) : super(key: key);
+
+  final Chat chat;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
     return GestureDetector(
-      onTap: context.read<ChatsPageCubit>().onChatPressed,
+      onTap: () => context.read<ChatsPageCubit>().onChatPressed(chat),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
         color: theme.scaffoldBackgroundColor,
