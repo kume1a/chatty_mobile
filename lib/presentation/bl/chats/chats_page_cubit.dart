@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/models/chat/chat.dart';
+import '../../../domain/models/user/user.dart';
 import '../../core/routes/route_arguments/chat_page_args.dart';
 import '../../core/routes/screens_navigator.dart';
 
@@ -18,8 +19,10 @@ class ChatsPageCubit extends Cubit<Unit> {
 
   void onSearchPressed() => _screensNavigator.toSearchPage();
 
-  void onUserPressed() {
-    const ChatPageArgs args = ChatPageArgs(userId: 1);
+  void onUserPressed(User user) {
+    final ChatPageArgs args = ChatPageArgs(
+      userId: user.id,
+    );
 
     _screensNavigator.toChatPage(args);
   }

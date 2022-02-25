@@ -46,7 +46,7 @@ class _Item extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 9),
       width: 80,
       child: GestureDetector(
-        onTap: context.read<ChatsPageCubit>().onUserPressed,
+        onTap: () => context.read<ChatsPageCubit>().onUserPressed(user),
         child: Column(
           children: <Widget>[
             SafeImage.withAssetPlaceholder(

@@ -1,8 +1,11 @@
+import 'package:common_models/common_models.dart';
 import 'package:common_widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/models/user/user.dart';
+import '../../../bl/chat/chat_page_user_cubit.dart';
 import '../../../core/values/assets.dart';
-import '../../../core/values/palette.dart';
 import '../../../core/widgets/common/default_back_button.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -24,33 +27,50 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: <Widget>[
             const DefaultBackButton(),
             const SizedBox(height: 10),
-            const SafeImage.withAssetPlaceholder(
-              url: null,
-              placeholderAssetPath: Assets.imageDefaultProfile,
-              width: 36,
-              height: 36,
-              borderRadius: 2,
-            ),
+            const _UserProfileImage(),
             const SizedBox(width: 6),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: const <Widget>[
-                  Text(
-                    'name',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                children: <Widget>[
+                  BlocBuilder<ChatPageUserCubit, DataState<FetchFailure, User>>(
+                    builder: (_, DataState<FetchFailure, User> state) {
+                      return Text(
+                        state.get?.fullName ?? '',
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      );
+                    },
                   ),
-                  Text(
-                    'online',
-                    style: TextStyle(fontSize: 12, color: Palette.online),
-                  ),
+                  // const Text(
+                  //   'online',
+                  //   style: TextStyle(fontSize: 12, color: Palette.online),
+                  // ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _UserProfileImage extends StatelessWidget {
+  const _UserProfileImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ChatPageUserCubit, DataState<FetchFailure, User>>(
+      builder: (_, DataState<FetchFailure, User> state) {
+        return SafeImage.withAssetPlaceholder(
+          url: state.get?.profileImageUrl,
+          placeholderAssetPath: Assets.imageDefaultProfile,
+          width: 36,
+          height: 36,
+          borderRadius: 2,
+        );
+      },
     );
   }
 }

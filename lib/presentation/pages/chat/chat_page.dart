@@ -8,6 +8,7 @@ import '../../../domain/models/chat/chat.dart';
 import '../../bl/chat/chat_page_cubit.dart';
 import '../../bl/chat/chat_page_input_cubit.dart';
 import '../../bl/chat/chat_page_messages_cubit.dart';
+import '../../bl/chat/chat_page_user_cubit.dart';
 import '../../core/routes/route_arguments/chat_page_args.dart';
 import 'widgets/widgets.dart';
 
@@ -32,6 +33,10 @@ class ChatPage extends StatelessWidget {
         ),
         BlocProvider<ChatPageInputCubit>(
           create: (_) => getIt<ChatPageInputCubit>()..init(args),
+          lazy: false,
+        ),
+        BlocProvider<ChatPageUserCubit>(
+          create: (_) => getIt<ChatPageUserCubit>()..init(args),
           lazy: false,
         ),
       ],
