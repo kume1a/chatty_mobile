@@ -31,6 +31,8 @@ class MessageMapper extends BaseMapper<MessageSchema, Message> {
 
     return Message(
       id: l.id ?? -1,
+      userId: l.userId ?? -1,
+      chatId: l.chatId ?? -1,
       type: messageType,
       textMessage: l.textMessage,
       imageUrl: l.imageUrl,

@@ -11,6 +11,7 @@ import '../../domain/stores/current_user_info_store.dart';
 import '../../main.dart';
 import '../network/remote_services/authentication_remote_service.dart';
 import '../network/schema/authentication/authentication_payload_schema.dart';
+import '../network/ws/socket_instance_provider.dart';
 
 @LazySingleton(as: AuthenticationManager)
 class AuthenticationMangerImpl implements AuthenticationManager {
@@ -19,12 +20,14 @@ class AuthenticationMangerImpl implements AuthenticationManager {
     this._authenticationTokenStore,
     this._currentUserInfoStore,
     this._appJwtParser,
+    this._socketInstanceProvider,
   );
 
   final AuthenticationRemoteService _authenticationRemoteService;
   final AuthenticationTokenStore _authenticationTokenStore;
   final CurrentUserInfoStore _currentUserInfoStore;
   final AppJwtParser _appJwtParser;
+  final SocketInstanceProvider _socketInstanceProvider;
 
   @override
   Future<Either<SignInFailure, Unit>> signIn({
@@ -89,5 +92,6 @@ class AuthenticationMangerImpl implements AuthenticationManager {
   Future<void> logout() async {
     await _authenticationTokenStore.clear();
     await _currentUserInfoStore.clear();
+    await _socketInstanceProvider.dispose();
   }
 }

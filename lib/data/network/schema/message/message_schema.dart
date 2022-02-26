@@ -9,6 +9,7 @@ class MessageSchema with _$MessageSchema {
   const factory MessageSchema({
     int? id,
     int? userId,
+    int? chatId,
     String? type,
     String? textMessage,
     String? imageUrl,

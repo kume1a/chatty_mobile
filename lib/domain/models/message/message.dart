@@ -8,6 +8,8 @@ part 'message.freezed.dart';
 class Message with _$Message {
   const factory Message({
     required int id,
+    required int userId,
+    required int chatId,
     required MessageType type,
     required String? textMessage,
     required String? imageUrl,

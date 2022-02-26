@@ -7,6 +7,7 @@ import '../../../di/di_config.dart';
 import '../../bl/chats/chats_page_chats_cubit.dart';
 import '../../bl/chats/chats_page_cubit.dart';
 import '../../bl/chats/chats_page_recommended_users_cubit.dart';
+import '../../bl/core/realtime_data_broadcast_cubit.dart';
 import '../../i18n/translation_keys.dart';
 import 'widgets/widgets.dart';
 
@@ -17,6 +18,10 @@ class ChatsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: <BlocProviderAlias>[
+        BlocProvider<RealtimeDataBroadcastCubit>(
+          create: (_) => getIt<RealtimeDataBroadcastCubit>()..init(),
+          lazy: false,
+        ),
         BlocProvider<ChatsPageCubit>(
           create: (_) => getIt<ChatsPageCubit>(),
         ),

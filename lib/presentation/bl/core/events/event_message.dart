@@ -7,4 +7,6 @@ part 'event_message.freezed.dart';
 @freezed
 class EventMessage with _$EventMessage {
   const factory EventMessage.sent(Message message) = _Sent;
+
+  const factory EventMessage.received(Message message) = _Received;
 }

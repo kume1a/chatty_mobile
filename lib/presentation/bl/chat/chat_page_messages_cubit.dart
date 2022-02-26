@@ -31,6 +31,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
     addSubscription(_eventBus.on<EventMessage>().listen((EventMessage event) {
       event.whenOrNull(
         sent: (Message message) => _addMessageAndEmit(message),
+        received: (Message message) => _addMessageAndEmit(message),
       );
     }));
 
