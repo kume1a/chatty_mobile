@@ -29,18 +29,18 @@ class Conditions extends StatelessWidget {
         Expanded(
           child: Text.rich(
             TextSpan(
-              text: TkSignUp.captionAgreeWithProvided.i18n,
+              text: TkPageSignUp.captionAgreeWithProvided.i18n,
               style: const TextStyle(fontSize: 15),
               children: <InlineSpan>[
                 TextSpan(
-                  text: TkSignUp.termsOfService.i18n,
+                  text: TkPageSignUp.termsOfService.i18n,
                   style: TextStyle(color: theme.colorScheme.secondary),
                   recognizer: TapGestureRecognizer()
                     ..onTap = context.read<SignUpPageCubit>().onTermsOfServicePressed,
                 ),
-                TextSpan(text: TkSignUp.and.i18n),
+                TextSpan(text: TkPageSignUp.and.i18n),
                 TextSpan(
-                  text: TkSignUp.privacyPolicy.i18n,
+                  text: TkPageSignUp.privacyPolicy.i18n,
                   style: TextStyle(color: theme.colorScheme.secondary),
                   recognizer: TapGestureRecognizer()
                     ..onTap = context.read<SignUpPageCubit>().onPrivacyPolicyPressed,

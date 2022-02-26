@@ -13,7 +13,7 @@ class ButtonGoogle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SocialButton(
-      label: TkSignIn.google.i18n,
+      label: TkPageSignIn.google.i18n,
       assetName: Assets.iconGoogle,
       onPressed: context.read<SignInPageCubit>().onGooglePressed,
     );
@@ -26,7 +26,7 @@ class ButtonFacebook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SocialButton(
-      label: TkSignIn.facebook.i18n,
+      label: TkPageSignIn.facebook.i18n,
       assetName: Assets.iconFacebook,
       onPressed: context.read<SignInPageCubit>().onFacebookPressed,
     );

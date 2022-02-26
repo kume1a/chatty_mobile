@@ -51,7 +51,7 @@ class _Content extends StatelessWidget {
               children: <Widget>[
                 Positioned.fill(child: ColoredBox(color: theme.primaryColor)),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(18, mediaQueryData.padding.top, 18, 16),
+                  padding: EdgeInsets.fromLTRB(18, mediaQueryData.padding.top + 18, 18, 16),
                   child: const Header(),
                 ),
               ],

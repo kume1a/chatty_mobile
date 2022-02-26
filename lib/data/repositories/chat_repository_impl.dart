@@ -30,7 +30,12 @@ class ChatRepositoryImpl implements ChatRepository {
       takeCount: 15,
     );
 
-    return result.map((ChatsPageSchema r) => _chatsPageMapper.mapToRight(r));
+    if (result.isRight()) {
+      final DataPage<Chat> mapped = await _chatsPageMapper.mapToRight(result.rightOrThrow);
+
+      return right(mapped);
+    }
+    return left(result.leftOrThrow);
   }
 
   @override
@@ -40,6 +45,11 @@ class ChatRepositoryImpl implements ChatRepository {
     final Either<FetchFailure, ChatSchema> result =
         await _chatRemoteService.getChatByUserId(userId: userId);
 
-    return result.map((ChatSchema r) => _chatMapper.mapToRight(r));
+    if (result.isRight()) {
+      final Chat mapped = await _chatMapper.mapToRight(result.rightOrThrow);
+
+      return right(mapped);
+    }
+    return left(result.leftOrThrow);
   }
 }

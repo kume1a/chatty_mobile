@@ -48,8 +48,8 @@ class _Item extends StatelessWidget {
         color: theme.scaffoldBackgroundColor,
         child: Row(
           children: <Widget>[
-            const SafeImage.withAssetPlaceholder(
-              url: null,
+            SafeImage.withAssetPlaceholder(
+              url: chat.user?.profileImageUrl,
               placeholderAssetPath: Assets.imageDefaultProfile,
               width: 46,
               height: 46,
@@ -60,10 +60,10 @@ class _Item extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'User name',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                          chat.user?.fullName ?? '',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -76,8 +76,8 @@ class _Item extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: <Widget>[
-                      const Expanded(
-                        child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+                      Expanded(
+                        child: Text(chat.lastMessage?.textMessage ?? ''),
                       ),
                       const SizedBox(width: 12),
                       Container(

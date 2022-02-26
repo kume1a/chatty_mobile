@@ -27,11 +27,10 @@ class _Content extends StatelessWidget {
       appBar: const SimpleAppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
+          padding: const EdgeInsets.all(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const <Widget>[
-              SizedBox(height: 16),
               Profile(),
               Spacer(),
               ButtonLogout(),

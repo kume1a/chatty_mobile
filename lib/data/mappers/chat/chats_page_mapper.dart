@@ -15,9 +15,10 @@ class ChatsPageMapper extends BaseMapper<ChatsPageSchema, DataPage<Chat>> {
   final ChatMapper _chatMapper;
 
   @override
-  DataPage<Chat> mapToRight(ChatsPageSchema l) {
-    final List<Chat> chats =
-        l.data?.map((ChatSchema e) => _chatMapper.mapToRight(e)).toList() ?? List<Chat>.empty();
+  Future<DataPage<Chat>> mapToRight(ChatsPageSchema l) async {
+    final List<Chat> chats = l.data != null
+        ? await Future.wait(l.data!.map((ChatSchema e) => _chatMapper.mapToRight(e)))
+        : List<Chat>.empty();
 
     return DataPage<Chat>(
       items: chats,

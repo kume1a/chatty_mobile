@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:common_models/common_models.dart';
 import 'package:injectable/injectable.dart';
 
@@ -45,11 +47,13 @@ class MessageRepositoryImpl implements MessageRepository {
   Future<Either<SimpleActionFailure, Message>> sendMessage({
     required int chatId,
     String? textMessage,
+    Uint8List? imageFile,
   }) async {
     final Either<SimpleActionFailure, MessageSchema> result =
         await _messageRemoteService.sendMessage(
       chatId: chatId,
       textMessage: textMessage,
+      imageFile: imageFile,
     );
 
     if (result.isRight()) {

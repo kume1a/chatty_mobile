@@ -1,7 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../schema/body/send_message_body.dart';
 import '../schema/message/message_schema.dart';
 
 class MultipartApiService {
@@ -13,11 +14,27 @@ class MultipartApiService {
   final Dio _dio;
   final String? _baseUrl;
 
-  Future<MessageSchema> sendMessage(SendMessageBody body) async {
+  Future<MessageSchema> sendMessage({
+    required int chatId,
+    String? textMessage,
+    Uint8List? imageFile,
+  }) async {
+    final FormData formData = FormData();
+
+    formData.fields.add(MapEntry<String, String>('chatId', chatId.toString()));
+    if (textMessage != null) {
+      formData.fields.add(MapEntry<String, String>('textMessage', textMessage));
+    }
+    if (imageFile != null) {
+      final MultipartFile multipartImageFile =
+          MultipartFile.fromBytes(imageFile, filename: 'image.jpg');
+      formData.files.add(MapEntry<String, MultipartFile>('imageFile', multipartImageFile));
+    }
+
     final Response<Map<String, dynamic>> result = await _dio.fetch<Map<String, dynamic>>(
       _setStreamType<MessageSchema>(
         Options(method: HttpMethod.POST)
-            .compose(_dio.options, '/messages', data: body.toJson())
+            .compose(_dio.options, '/messages', data: formData)
             .copyWith(baseUrl: _baseUrl ?? _dio.options.baseUrl),
       ),
     );

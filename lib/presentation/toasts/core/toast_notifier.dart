@@ -68,7 +68,7 @@ class ToastNotifier {
     Icon? icon = const Icon(Icons.wifi_off, color: Palette.error),
   }) {
     _notify(
-      message: message ?? TkErrors.network.i18n,
+      message: message ?? TkError.network.i18n,
       title: title ?? TkCommon.error.i18n,
       icon: icon,
     );
@@ -80,7 +80,7 @@ class ToastNotifier {
     Icon? icon = const Icon(Icons.info_outline, color: Palette.error),
   }) {
     _notify(
-      message: message ?? TkErrors.unknown.i18n,
+      message: message ?? TkError.unknown.i18n,
       title: title ?? TkCommon.error.i18n,
       icon: icon,
     );

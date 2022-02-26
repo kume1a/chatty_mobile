@@ -13,7 +13,7 @@ class UnderCaption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
-        text: TkSignIn.captionDontHaveAccount.i18n,
+        text: TkPageSignIn.captionDontHaveAccount.i18n,
         children: <InlineSpan>[
           TextSpan(
             text: TkCommon.signUp.i18n,

@@ -20,7 +20,7 @@ class SignUpFailureNotifier extends FailureNotifier<SignUpFailure> {
       unknown: () => _toastNotifier.notifyUnknownError(),
       network: () => _toastNotifier.notifyNetworkError(),
       emailAlreadyUsed: () => _toastNotifier.notifyError(
-        message: TkErrors.emailAlreadyUsed.i18n,
+        message: TkError.emailAlreadyUsed.i18n,
         title: TkCommon.error.i18n,
       ),
     );

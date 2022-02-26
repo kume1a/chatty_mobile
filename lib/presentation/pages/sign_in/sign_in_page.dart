@@ -83,7 +83,7 @@ class _Content extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     Text(
-                      TkSignIn.captionContinueWith.i18n,
+                      TkPageSignIn.captionContinueWith.i18n,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,

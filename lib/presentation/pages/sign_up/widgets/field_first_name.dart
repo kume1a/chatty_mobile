@@ -21,8 +21,8 @@ class FieldFirstName extends StatelessWidget {
       onChanged: context.read<SignUpPageCubit>().onFirstNameChanged,
       validator: (_) => context.read<SignUpPageCubit>().state.firstName.value.fold(
             (NameFailure l) => l.when(
-              empty: () => TkValidationErrors.fieldIsRequired.i18n,
-              tooShort: () => TkValidationErrors.shortName.i18n,
+              empty: () => TkValidationError.fieldIsRequired.i18n,
+              tooShort: () => TkValidationError.shortName.i18n,
             ),
             (_) => null,
           ),

@@ -1,10 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:common_models/common_models.dart';
 import 'package:common_network_components/common_network_components.dart';
 import 'package:injectable/injectable.dart';
 
 import '../api/api_service.dart';
 import '../api/multipart_api_service.dart';
-import '../schema/body/send_message_body.dart';
 import '../schema/message/message_schema.dart';
 import '../schema/message/messages_page_schema.dart';
 
@@ -21,15 +22,13 @@ class MessageRemoteService extends BaseService {
   Future<Either<SimpleActionFailure, MessageSchema>> sendMessage({
     required int chatId,
     String? textMessage,
+    Uint8List? imageFile,
   }) async =>
-      safeSimpleCall(() {
-        final SendMessageBody body = SendMessageBody(
-          chatId: chatId,
-          textMessage: textMessage,
-        );
-
-        return _multipartApiService.sendMessage(body);
-      });
+      safeSimpleCall(() => _multipartApiService.sendMessage(
+            chatId: chatId,
+            textMessage: textMessage,
+            imageFile: imageFile,
+          ));
 
   Future<Either<FetchFailure, MessagesPageSchema>> getMessages({
     required int chatId,

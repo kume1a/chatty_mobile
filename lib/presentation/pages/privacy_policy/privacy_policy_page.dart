@@ -16,7 +16,7 @@ class PrivacyPolicyPage extends StatelessWidget {
 
     return Scaffold(
       appBar: SimpleAppBar(
-        title: TkPrivacyPolicy.header.i18n,
+        title: TkPagePrivacyPolicy.header.i18n,
       ),
       body: SafeArea(
         child: ListView(

@@ -21,8 +21,8 @@ class FieldEmail extends StatelessWidget {
       onChanged: context.read<SignUpPageCubit>().onEmailChanged,
       validator: (_) => context.read<SignUpPageCubit>().state.email.value.fold(
             (ValueFailure l) => l.when(
-              empty: () => TkValidationErrors.fieldIsRequired.i18n,
-              invalid: () => TkValidationErrors.invalidEmail.i18n,
+              empty: () => TkValidationError.fieldIsRequired.i18n,
+              invalid: () => TkValidationError.invalidEmail.i18n,
             ),
             (_) => null,
           ),

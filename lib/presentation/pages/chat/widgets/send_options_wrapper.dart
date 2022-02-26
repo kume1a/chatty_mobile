@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../bl/chat/chat_page_cubit.dart';
+import '../../../bl/chat/chat_page_image_cubit.dart';
 import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
 
@@ -128,7 +129,7 @@ class _SendOptions extends StatelessWidget {
         Expanded(
           child: _SendOption(
             assetName: Assets.iconCamera,
-            onPressed: context.read<ChatPageCubit>().onCameraPressed,
+            onPressed: context.read<ChatPageImageCubit>().onCameraPressed,
           ),
         ),
         const SizedBox(width: 24),
@@ -171,18 +172,21 @@ class _SendOption extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: theme.colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: SvgPicture.asset(
-          assetName,
-          width: 28,
-          height: 28,
+    return GestureDetector(
+      onTap: onPressed,
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: SvgPicture.asset(
+            assetName,
+            width: 28,
+            height: 28,
+          ),
         ),
       ),
     );

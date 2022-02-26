@@ -37,8 +37,6 @@ class ChatPageCubit extends Cubit<DataState<FetchFailure, Chat>>
 
   Future<void> onRefresh() async => _fetchChat();
 
-  void onCameraPressed() {}
-
   void onVideoCameraPressed() {}
 
   void onDocumentPressed() {}

@@ -37,8 +37,8 @@ class FieldPassword extends StatelessWidget {
           onChanged: context.read<SignUpPageCubit>().onPasswordChanged,
           validator: (_) => context.read<SignUpPageCubit>().state.password.value.fold(
                 (PasswordFailure l) => l.whenOrNull(
-                  shortPassword: () => TkValidationErrors.shortPassword.i18n,
-                  empty: () => TkValidationErrors.fieldIsRequired.i18n,
+                  shortPassword: () => TkValidationError.shortPassword.i18n,
+                  empty: () => TkValidationError.fieldIsRequired.i18n,
                 ),
                 (_) => null,
               ),

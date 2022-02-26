@@ -16,7 +16,7 @@ class TermsOfServicePage extends StatelessWidget {
 
     return Scaffold(
       appBar: SimpleAppBar(
-        title: TkTermsOfService.header.i18n,
+        title: TkPageTermsOfService.header.i18n,
       ),
       body: SafeArea(
         child: ListView(

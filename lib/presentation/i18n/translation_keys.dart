@@ -12,41 +12,54 @@ abstract class TkCommon {
   static const String recent = 'TkCommon.recent';
   static const String online = 'TkCommon.online';
   static const String logout = 'TkCommon.logout';
+  static const String settings = 'TkCommon.settings';
 }
 
-abstract class TkErrors {
-  static const String unknown = 'TkErrors.unknown';
-  static const String network = 'TkErrors.network';
-  static const String invalidEmailOrPassword = '';
-  static const String emailAlreadyUsed = '';
+abstract class TkError {
+  static const String unknown = 'TkError.unknown';
+  static const String network = 'TkError.network';
+  static const String invalidEmailOrPassword = 'TkError.invalidEmailOrPassword';
+  static const String emailAlreadyUsed = 'TkError.emailAlreadyUsed';
+  static const String permissionDenied = 'TkError.permissionDenied';
+  static const String microphonePermissionDenied = 'TkError.microphonePermissionDenied';
+  static const String microphonePermissionPermanentlyDenied =
+      'TkError.microphonePermissionPermanentlyDenied';
+  static const String storagePermissionDenied = 'TkError.storagePermissionDenied';
+  static const String storagePermissionPermanentlyDenied =
+      'TkError.storagePermissionPermanentlyDenied';
+  static const String cameraPermissionDenied = 'TkError.cameraPermissionDenied';
+  static const String cameraPermissionPermanentlyDenied =
+      'TkError.cameraPermissionPermanentlyDenied';
+  static const String pickImage = 'TkError.pickImage';
 }
 
-abstract class TkValidationErrors {
-  static const String fieldIsRequired = 'TkValidationErrors.fieldIsRequired';
-  static const String invalidEmail = 'TkValidationErrors.invalidEmail';
-  static const String shortPassword = 'TkValidationErrors.shortPassword';
-  static const String repeatedPasswordDoesNotMatch = 'TkValidationErrors.repeatedPasswordDoesNotMatch';
-  static const String shortName = 'TkValidationErrors.shortName';
+abstract class TkValidationError {
+  static const String fieldIsRequired = 'TkValidationError.fieldIsRequired';
+  static const String invalidEmail = 'TkValidationError.invalidEmail';
+  static const String shortPassword = 'TkValidationError.shortPassword';
+  static const String repeatedPasswordDoesNotMatch =
+      'TkValidationError.repeatedPasswordDoesNotMatch';
+  static const String shortName = 'TkValidationError.shortName';
 }
 
-abstract class TkSignIn {
-  static const String google = 'TkSignIn.google';
-  static const String facebook = 'TkSignIn.facebook';
-  static const String captionContinueWith = 'TkSignIn.captionContinueWith';
-  static const String captionDontHaveAccount = 'TkSignIn.captionDontHaveAccount';
+abstract class TkPageSignIn {
+  static const String google = 'TkPageSignIn.google';
+  static const String facebook = 'TkPageSignIn.facebook';
+  static const String captionContinueWith = 'TkPageSignIn.captionContinueWith';
+  static const String captionDontHaveAccount = 'TkPageSignIn.captionDontHaveAccount';
 }
 
-abstract class TkSignUp {
-  static const String captionAgreeWithProvided = 'TkSignUp.captionAgreeWithProvided';
-  static const String and = 'TkSignUp.and';
-  static const String termsOfService = 'TkSignUp.termsOfService';
-  static const String privacyPolicy = 'TkSignUp.privacyPolicy';
+abstract class TkPageSignUp {
+  static const String captionAgreeWithProvided = 'TkPageSignUp.captionAgreeWithProvided';
+  static const String and = 'TkPageSignUp.and';
+  static const String termsOfService = 'TkPageSignUp.termsOfService';
+  static const String privacyPolicy = 'TkPageSignUp.privacyPolicy';
 }
 
-abstract class TkTermsOfService {
-  static const String header = 'TkTermsOfService.header';
+abstract class TkPageTermsOfService {
+  static const String header = 'TkPageTermsOfService.header';
 }
 
-abstract class TkPrivacyPolicy {
-  static const String header = 'TkPrivacyPolicy.header';
+abstract class TkPagePrivacyPolicy {
+  static const String header = 'TkPagePrivacyPolicy.header';
 }

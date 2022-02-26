@@ -20,7 +20,7 @@ class SignInFailureNotifier extends FailureNotifier<SignInFailure> {
       unknown: () => _toastNotifier.notifyUnknownError(),
       network: () => _toastNotifier.notifyNetworkError(),
       invalidEmailOrPassword: () => _toastNotifier.notifyError(
-        message: TkErrors.invalidEmailOrPassword.i18n,
+        message: TkError.invalidEmailOrPassword.i18n,
         title: TkCommon.error.i18n,
       ),
     );

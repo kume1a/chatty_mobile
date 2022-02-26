@@ -2,10 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-/// [LogInterceptor] is used to print logs during network requests.
-/// It's better to add [LogInterceptor] to the tail of the interceptor queue,
-/// otherwise the changes made in the interceptor behind A will not be printed out.
-/// This is because the execution of interceptors is in the order of addition.
 class CustomLogInterceptor extends Interceptor {
   CustomLogInterceptor({
     this.request = true,
@@ -17,34 +13,13 @@ class CustomLogInterceptor extends Interceptor {
     this.logPrint = print,
   });
 
-  /// Print request [Options]
   bool request;
-
-  /// Print request header [Options.headers]
   bool requestHeader;
-
-  /// Print request data [Options.data]
   bool requestBody;
-
-  /// Print [Response.data]
   bool responseBody;
-
-  /// Print [Response.headers]
   bool responseHeader;
-
-  /// Print error message
   bool error;
 
-  /// Log printer; defaults print log to console.
-  /// In flutter, you'd better use debugPrint.
-  /// you can also write log in a file, for example:
-  ///```dart
-  ///  var file=File("./log.txt");
-  ///  var sink=file.openWrite();
-  ///  dio.interceptors.add(LogInterceptor(logPrint: sink.writeln));
-  ///  ...
-  ///  await sink.close();
-  ///```
   void Function(Object object) logPrint;
 
   static JsonDecoder decoder = const JsonDecoder();
@@ -75,7 +50,19 @@ class CustomLogInterceptor extends Interceptor {
     }
     if (requestBody) {
       output.writeln('data:');
-      output.writeln(options.data.toString());
+      if (options.data != null && options.data is FormData) {
+        final FormData formData = options.data as FormData;
+        output
+            .writeln('\tformData files: \n${formData.files.map((MapEntry<String, MultipartFile> e) {
+          const String dvr = '\n\t\t\t';
+          return '\t\t${e.key}: ${dvr}length: $dvr${e.value.length}${dvr}fileName: ${e.value.filename}${dvr}headers: ${e.value.headers}${dvr}contentType: ${e.value.contentType}\n';
+        })}');
+        output.writeln('\tformData fields: \n${formData.fields.map((MapEntry<String, String> e) {
+          return '\t\t${e.key}: ${e.value}\n';
+        })}');
+      } else {
+        output.writeln(options.data.toString());
+      }
     }
     output.writeln();
 
