@@ -2,6 +2,8 @@ import 'package:common_models/common_models.dart';
 import 'package:common_widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:static_i18n/static_i18n.dart';
+import 'package:timeago/timeago.dart';
 
 import '../../../../domain/models/chat/chat.dart';
 import '../../../bl/chats/chats_page_chats_cubit.dart';
@@ -64,33 +66,44 @@ class _Item extends StatelessWidget {
                         child: Text(
                           chat.user?.fullName ?? '',
                           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Text(
-                        '8m',
-                        style: TextStyle(fontSize: 13, color: theme.secondaryHeaderColor),
-                      ),
+                      if (chat.lastMessage?.createdAt != null)
+                        Text(
+                          formatElapsedTime(
+                            chat.lastMessage!.createdAt!,
+                            locale: StaticI18N.locale?.languageCode,
+                            short: true,
+                          ),
+                          style: TextStyle(fontSize: 13, color: theme.secondaryHeaderColor),
+                        ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: <Widget>[
                       Expanded(
-                        child: Text(chat.lastMessage?.textMessage ?? ''),
+                        child: Text(
+                          chat.lastMessage?.textMessage ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const SizedBox(width: 12),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          color: theme.colorScheme.secondary,
-                        ),
-                        child: const Text(
-                          '1',
-                          style: TextStyle(color: Colors.white, fontSize: 11),
-                        ),
-                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(2),
+                      //     color: theme.colorScheme.secondary,
+                      //   ),
+                      //   child: const Text(
+                      //     '1',
+                      //     style: TextStyle(color: Colors.white, fontSize: 11),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

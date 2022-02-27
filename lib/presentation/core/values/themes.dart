@@ -99,7 +99,7 @@ abstract class AppTheme {
       ),
     ),
     textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: Palette.secondaryVariant,
+      cursorColor: Palette.primaryLight,
       selectionHandleColor: Palette.secondary,
     ),
     bottomSheetTheme: const BottomSheetThemeData(

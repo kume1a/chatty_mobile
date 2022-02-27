@@ -37,10 +37,7 @@ class Messages extends StatelessWidget {
                   case MessageType.unknown:
                     return Align(
                       alignment: message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
-                      child: _TapToShowTimestampContainer(
-                        timestamp: message.createdAt!,
-                        child: _TextMessage(message: message),
-                      ),
+                      child: _MessageWrapper(message: message),
                     );
                 }
               },
@@ -168,26 +165,23 @@ class _SliverGroupedListView<T, E> extends StatelessWidget {
   }
 }
 
-class _TapToShowTimestampContainer extends StatefulWidget {
-  const _TapToShowTimestampContainer({
+class _MessageWrapper extends StatefulWidget {
+  const _MessageWrapper({
     Key? key,
-    required this.timestamp,
-    required this.child,
+    required this.message,
     this.dateFormat,
   }) : super(key: key);
 
-  final DateTime timestamp;
-  final Widget child;
+  final Message message;
   final DateFormat? dateFormat;
 
   static final DateFormat _defaultDateFormat = DateFormat('dd/MM hh:mm');
 
   @override
-  _TapToShowTimestampContainerState createState() => _TapToShowTimestampContainerState();
+  _MessageWrapperState createState() => _MessageWrapperState();
 }
 
-class _TapToShowTimestampContainerState extends State<_TapToShowTimestampContainer>
-    with SingleTickerProviderStateMixin {
+class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _slideAnimation;
   late final Animation<double> _opacityAnimation;
@@ -205,7 +199,7 @@ class _TapToShowTimestampContainerState extends State<_TapToShowTimestampContain
 
     _slideAnimation = Tween<double>(
       begin: 0,
-      end: -18,
+      end: -15,
     ).animate(parent);
 
     _opacityAnimation = Tween<double>(
@@ -225,48 +219,68 @@ class _TapToShowTimestampContainerState extends State<_TapToShowTimestampContain
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _controller.isCompleted ? _controller.reverse() : _controller.forward(),
-      child: AnimatedBuilder(
-        animation: _slideAnimation,
-        builder: (_, Widget? child) {
-          return Padding(
-            padding: EdgeInsets.only(top: _slideAnimation.value.abs()),
-            child: child,
-          );
-        },
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            Positioned(
-              bottom: 0,
-              right: 12,
-              child: AnimatedBuilder(
-                animation: _opacityAnimation,
+    final ThemeData theme = Theme.of(context);
+
+    final Widget messageChild;
+
+    switch (widget.message.type) {
+      case MessageType.text:
+      case MessageType.voice:
+      case MessageType.video:
+      case MessageType.image:
+      case MessageType.gif:
+      case MessageType.unknown:
+        messageChild = _TextMessage(message: widget.message);
+        break;
+    }
+
+    return Align(
+      alignment: widget.message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
+      child: GestureDetector(
+        onTap: () => _controller.isCompleted ? _controller.reverse() : _controller.forward(),
+        child: AnimatedBuilder(
+          animation: _slideAnimation,
+          builder: (_, Widget? child) {
+            return Padding(
+              padding: EdgeInsets.only(top: _slideAnimation.value.abs()),
+              child: child,
+            );
+          },
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              Positioned(
+                bottom: 0,
+                right: widget.message.isOwn ? 12 : null,
+                left: widget.message.isOwn ? null : 12,
+                child: AnimatedBuilder(
+                  animation: _opacityAnimation,
+                  builder: (_, Widget? child) {
+                    return Opacity(
+                      opacity: _opacityAnimation.value,
+                      child: child,
+                    );
+                  },
+                  child: Text(
+                    (widget.dateFormat ?? _MessageWrapper._defaultDateFormat)
+                        .format(widget.message.createdAt!),
+                    style: TextStyle(fontSize: 12, color: theme.secondaryHeaderColor),
+                  ),
+                ),
+              ),
+              // widget.child,
+              AnimatedBuilder(
+                animation: _slideAnimation,
                 builder: (_, Widget? child) {
-                  return Opacity(
-                    opacity: _opacityAnimation.value,
+                  return Transform.translate(
+                    offset: Offset(0, _slideAnimation.value),
                     child: child,
                   );
                 },
-                child: Text(
-                  (widget.dateFormat ?? _TapToShowTimestampContainer._defaultDateFormat)
-                      .format(widget.timestamp),
-                ),
+                child: messageChild,
               ),
-            ),
-            // widget.child,
-            AnimatedBuilder(
-              animation: _slideAnimation,
-              builder: (_, Widget? child) {
-                return Transform.translate(
-                  offset: Offset(0, _slideAnimation.value),
-                  child: child,
-                );
-              },
-              child: widget.child,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
