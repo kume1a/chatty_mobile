@@ -35,7 +35,13 @@ class Messages extends StatelessWidget {
                   case MessageType.image:
                   case MessageType.gif:
                   case MessageType.unknown:
-                    return _TextMessage(message: message);
+                    return Align(
+                      alignment: message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
+                      child: _TapToShowTimestampContainer(
+                        timestamp: message.createdAt!,
+                        child: _TextMessage(message: message),
+                      ),
+                    );
                 }
               },
               extraItemBuilder: data.items.length < data.count
@@ -68,28 +74,25 @@ class _TextMessage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
 
-    return Align(
-      alignment: message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-        constraints: BoxConstraints(
-          maxWidth: mediaQueryData.size.width * .6,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      constraints: BoxConstraints(
+        maxWidth: mediaQueryData.size.width * .6,
+      ),
+      decoration: BoxDecoration(
+        color: message.isOwn ? theme.colorScheme.secondary : theme.colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(6),
+          topRight: const Radius.circular(6),
+          bottomRight: message.isOwn ? Radius.zero : const Radius.circular(6),
+          bottomLeft: message.isOwn ? const Radius.circular(6) : Radius.zero,
         ),
-        decoration: BoxDecoration(
-          color: message.isOwn ? theme.colorScheme.secondary : theme.colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(6),
-            topRight: const Radius.circular(6),
-            bottomRight: message.isOwn ? Radius.zero : const Radius.circular(6),
-            bottomLeft: message.isOwn ? const Radius.circular(6) : Radius.zero,
-          ),
-        ),
-        child: Text(
-          message.textMessage ?? '',
-          style: TextStyle(
-            color: message.isOwn ? Colors.white : null,
-          ),
+      ),
+      child: Text(
+        message.textMessage ?? '',
+        style: TextStyle(
+          color: message.isOwn ? Colors.white : null,
         ),
       ),
     );
@@ -162,5 +165,110 @@ class _SliverGroupedListView<T, E> extends StatelessWidget {
       return groupSeparatorBuilder!(groupBy(element));
     }
     return groupHeaderBuilder!(element);
+  }
+}
+
+class _TapToShowTimestampContainer extends StatefulWidget {
+  const _TapToShowTimestampContainer({
+    Key? key,
+    required this.timestamp,
+    required this.child,
+    this.dateFormat,
+  }) : super(key: key);
+
+  final DateTime timestamp;
+  final Widget child;
+  final DateFormat? dateFormat;
+
+  static final DateFormat _defaultDateFormat = DateFormat('dd/MM hh:mm');
+
+  @override
+  _TapToShowTimestampContainerState createState() => _TapToShowTimestampContainerState();
+}
+
+class _TapToShowTimestampContainerState extends State<_TapToShowTimestampContainer>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _slideAnimation;
+  late final Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    final CurvedAnimation parent = CurvedAnimation(parent: _controller, curve: Curves.ease);
+
+    _slideAnimation = Tween<double>(
+      begin: 0,
+      end: -18,
+    ).animate(parent);
+
+    _opacityAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(parent);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _controller.isCompleted ? _controller.reverse() : _controller.forward(),
+      child: AnimatedBuilder(
+        animation: _slideAnimation,
+        builder: (_, Widget? child) {
+          return Padding(
+            padding: EdgeInsets.only(top: _slideAnimation.value.abs()),
+            child: child,
+          );
+        },
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            Positioned(
+              bottom: 0,
+              right: 12,
+              child: AnimatedBuilder(
+                animation: _opacityAnimation,
+                builder: (_, Widget? child) {
+                  return Opacity(
+                    opacity: _opacityAnimation.value,
+                    child: child,
+                  );
+                },
+                child: Text(
+                  (widget.dateFormat ?? _TapToShowTimestampContainer._defaultDateFormat)
+                      .format(widget.timestamp),
+                ),
+              ),
+            ),
+            // widget.child,
+            AnimatedBuilder(
+              animation: _slideAnimation,
+              builder: (_, Widget? child) {
+                return Transform.translate(
+                  offset: Offset(0, _slideAnimation.value),
+                  child: child,
+                );
+              },
+              child: widget.child,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
