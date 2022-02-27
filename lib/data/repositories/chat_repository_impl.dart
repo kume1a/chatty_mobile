@@ -23,11 +23,11 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<Either<FetchFailure, DataPage<Chat>>> getChats({
-    required int? lastId,
+    required int? page,
   }) async {
     final Either<FetchFailure, ChatsPageSchema> result = await _chatRemoteService.getChats(
-      lastId: lastId,
-      takeCount: 15,
+      page: page,
+      pageSize: 15,
     );
 
     if (result.isRight()) {

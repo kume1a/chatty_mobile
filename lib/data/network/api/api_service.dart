@@ -40,8 +40,8 @@ abstract class ApiService {
 
   @GET('/chats')
   Future<ChatsPageSchema> getChats(
-    @Query('lastId') int? lastId,
-    @Query('takeCount') int takeCount,
+    @Query('page') int? page,
+    @Query('pageSize') int pageSize,
   );
 
   @GET('/messages/{chatId}')

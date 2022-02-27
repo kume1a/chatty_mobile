@@ -4,7 +4,7 @@ import '../models/chat/chat.dart';
 
 abstract class ChatRepository {
   Future<Either<FetchFailure, DataPage<Chat>>> getChats({
-    required int? lastId,
+    required int? page,
   });
 
   Future<Either<FetchFailure, Chat>> getChatByUserId({

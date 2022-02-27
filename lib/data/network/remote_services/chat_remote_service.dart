@@ -15,10 +15,10 @@ class ChatRemoteService extends BaseService {
   final ApiService _apiService;
 
   Future<Either<FetchFailure, ChatsPageSchema>> getChats({
-    required int? lastId,
-    required int takeCount,
+    required int? page,
+    required int pageSize,
   }) async =>
-      safeFetch(() => _apiService.getChats(lastId, takeCount));
+      safeFetch(() => _apiService.getChats(page, pageSize));
 
   Future<Either<FetchFailure, ChatSchema>> getChatByUserId({
     required int userId,

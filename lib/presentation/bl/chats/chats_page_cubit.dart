@@ -28,7 +28,13 @@ class ChatsPageCubit extends Cubit<Unit> {
   }
 
   void onChatPressed(Chat chat) {
-    const ChatPageArgs args = ChatPageArgs(userId: 1);
+    if (chat.user?.id == null) {
+      return;
+    }
+
+    final ChatPageArgs args = ChatPageArgs(
+      userId: chat.user!.id,
+    );
 
     _screensNavigator.toChatPage(args);
   }

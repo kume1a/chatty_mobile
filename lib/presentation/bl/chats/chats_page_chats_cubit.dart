@@ -6,11 +6,11 @@ import '../../../core/composite_disposable.dart';
 import '../../../domain/models/chat/chat.dart';
 import '../../../domain/models/message/message.dart';
 import '../../../domain/repositories/chat_repository.dart';
-import '../core/data_pager_with_last_id_cubit.dart';
+import '../core/data_pager_with_page_cubit.dart';
 import '../core/events/event_message.dart';
 
 @injectable
-class ChatsPageChatsCubit extends DataPagerWithLastIdCubit<FetchFailure, Chat, int>
+class ChatsPageChatsCubit extends DataPagerWithPageCubit<FetchFailure, Chat>
     with CompositeDisposable<DataState<FetchFailure, DataPage<Chat>>> {
   ChatsPageChatsCubit(
     this._chatRepository,
@@ -33,11 +33,8 @@ class ChatsPageChatsCubit extends DataPagerWithLastIdCubit<FetchFailure, Chat, i
   }
 
   @override
-  Future<Either<FetchFailure, DataPage<Chat>>> provideDataPage(int? lastId) async =>
-      _chatRepository.getChats(lastId: lastId);
-
-  @override
-  int resolveId(Chat t) => t.id;
+  Future<Either<FetchFailure, DataPage<Chat>>> provideDataPage(int page) async =>
+      _chatRepository.getChats(page: page);
 
   Future<void> _updateLatestMessageAndEmit(Message message) async {
     final DataState<FetchFailure, DataPage<Chat>>? newState =
