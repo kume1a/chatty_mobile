@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../main.dart';
 import '../../core/constants.dart';
 import '../../data/network/api/api_service.dart';
 import '../../data/network/api/multipart_api_service.dart';
 import '../../data/network/interceptors/authorization_interceptor.dart';
 import '../../data/network/interceptors/custom_log_interceptor.dart';
+import '../../main.dart';
 
 @module
 abstract class NetworkModule {

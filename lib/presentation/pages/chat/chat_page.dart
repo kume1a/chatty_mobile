@@ -1,4 +1,5 @@
 import 'package:common_models/common_models.dart';
+import 'package:common_widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,7 +66,15 @@ class _Content extends StatelessWidget {
               success: (Chat data) => SendOptionsWrapper(
                 child: Column(
                   children: <Widget>[
-                    const Expanded(child: Messages()),
+                    const Expanded(
+                      child: CustomScrollView(
+                        reverse: true,
+                        slivers: <Widget>[
+                          SliverSizedBox.shrink(),
+                          Messages(),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       child: Row(
