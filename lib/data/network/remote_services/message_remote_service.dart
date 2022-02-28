@@ -21,11 +21,13 @@ class MessageRemoteService extends BaseService {
 
   Future<Either<SimpleActionFailure, MessageSchema>> sendMessage({
     required int chatId,
+    required String sendId,
     String? textMessage,
     Uint8List? imageFile,
   }) async =>
       safeSimpleCall(() => _multipartApiService.sendMessage(
             chatId: chatId,
+            sendId: sendId,
             textMessage: textMessage,
             imageFile: imageFile,
           ));

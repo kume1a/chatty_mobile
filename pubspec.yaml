@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^0.8.4+9
   permission_handler: ^9.2.0
   synchronized: ^3.0.0
+  uuid: ^3.0.6
 
   common_widgets:
     git:

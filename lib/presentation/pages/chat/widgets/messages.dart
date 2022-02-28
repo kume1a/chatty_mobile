@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../domain/enums/message_type.dart';
-import '../../../../domain/models/message/message.dart';
+import '../../../../domain/models/message/message_wrapper.dart';
 import '../../../bl/chat/chat_page_messages_cubit.dart';
 
 class Messages extends StatelessWidget {
@@ -14,37 +14,29 @@ class Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChatPageMessagesCubit, DataState<FetchFailure, DataPage<Message>>>(
-      builder: (BuildContext context, DataState<FetchFailure, DataPage<Message>> state) {
+    return BlocBuilder<ChatPageMessagesCubit, DataState<FetchFailure, DataPage<MessageWrapper>>>(
+      builder: (BuildContext context, DataState<FetchFailure, DataPage<MessageWrapper>> state) {
         return state.maybeWhen(
-          success: (DataPage<Message> data) {
-            return _SliverGroupedListView<Message, DateTime>(
+          success: (DataPage<MessageWrapper> data) {
+            return _SliverGroupedListView<MessageWrapper, DateTime>(
               elements: data.items,
-              groupBy: (Message e) => DateTime(
-                e.createdAt!.year,
-                e.createdAt!.month,
-                e.createdAt!.day,
-              ),
+              groupBy: (MessageWrapper e) => e.message?.createdAt != null
+                  ? DateTime(
+                      e.message!.createdAt!.year,
+                      e.message!.createdAt!.month,
+                      e.message!.createdAt!.day,
+                    )
+                  : DateTime.now(),
               groupSeparatorBuilder: (DateTime date) =>
                   Align(child: Text(_dateFormat.format(date))),
-              itemBuilder: (_, __, Message message) {
-                switch (message.type) {
-                  case MessageType.text:
-                  case MessageType.voice:
-                  case MessageType.video:
-                  case MessageType.image:
-                  case MessageType.gif:
-                  case MessageType.unknown:
-                    return Align(
-                      alignment: message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
-                      child: _MessageWrapper(message: message),
-                    );
-                }
-              },
+              itemBuilder: (_, __, MessageWrapper messageWrapper) => Align(
+                alignment: messageWrapper.message?.isOwn == true
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
+                child: _MessageWrapper(messageWrapper: messageWrapper),
+              ),
               extraItemBuilder: data.items.length < data.count
-                  ? (_) => const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                  ? (_) => const Center(child: CircularProgressIndicator())
                   : null,
               onExtraItemBuilt: data.items.length < data.count
                   ? context.read<ChatPageMessagesCubit>().onScrolledToEnd
@@ -61,35 +53,44 @@ class Messages extends StatelessWidget {
 class _TextMessage extends StatelessWidget {
   const _TextMessage({
     Key? key,
-    required this.message,
+    required this.messageWrapper,
   }) : super(key: key);
 
-  final Message message;
+  final MessageWrapper messageWrapper;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
 
+    final Color backgroundColor;
+    if (messageWrapper.message!.isOwn) {
+      backgroundColor = messageWrapper.isSent
+          ? theme.colorScheme.secondary
+          : theme.colorScheme.secondary.withOpacity(.5);
+    } else {
+      backgroundColor = theme.colorScheme.secondaryContainer;
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
       constraints: BoxConstraints(
         maxWidth: mediaQueryData.size.width * .6,
       ),
       decoration: BoxDecoration(
-        color: message.isOwn ? theme.colorScheme.secondary : theme.colorScheme.secondaryContainer,
+        color: backgroundColor,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(6),
           topRight: const Radius.circular(6),
-          bottomRight: message.isOwn ? Radius.zero : const Radius.circular(6),
-          bottomLeft: message.isOwn ? const Radius.circular(6) : Radius.zero,
+          bottomRight: messageWrapper.message!.isOwn ? Radius.zero : const Radius.circular(6),
+          bottomLeft: messageWrapper.message!.isOwn ? const Radius.circular(6) : Radius.zero,
         ),
       ),
       child: Text(
-        message.textMessage ?? '',
+        messageWrapper.message!.textMessage ?? '',
         style: TextStyle(
-          color: message.isOwn ? Colors.white : null,
+          color: messageWrapper.message!.isOwn ? Colors.white : null,
         ),
       ),
     );
@@ -168,11 +169,11 @@ class _SliverGroupedListView<T, E> extends StatelessWidget {
 class _MessageWrapper extends StatefulWidget {
   const _MessageWrapper({
     Key? key,
-    required this.message,
+    required this.messageWrapper,
     this.dateFormat,
   }) : super(key: key);
 
-  final Message message;
+  final MessageWrapper messageWrapper;
   final DateFormat? dateFormat;
 
   static final DateFormat _defaultDateFormat = DateFormat('dd/MM hh:mm');
@@ -219,40 +220,44 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
 
   @override
   Widget build(BuildContext context) {
+    if (widget.messageWrapper.message == null) {
+      return const SizedBox.shrink();
+    }
+
     final ThemeData theme = Theme.of(context);
 
     final Widget messageChild;
 
-    switch (widget.message.type) {
+    switch (widget.messageWrapper.message!.type) {
       case MessageType.text:
       case MessageType.voice:
       case MessageType.video:
       case MessageType.image:
       case MessageType.gif:
+      case MessageType.file:
       case MessageType.unknown:
-        messageChild = _TextMessage(message: widget.message);
+        messageChild = _TextMessage(messageWrapper: widget.messageWrapper);
         break;
     }
 
-    return Align(
-      alignment: widget.message.isOwn ? Alignment.centerRight : Alignment.centerLeft,
-      child: GestureDetector(
-        onTap: () => _controller.isCompleted ? _controller.reverse() : _controller.forward(),
-        child: AnimatedBuilder(
-          animation: _slideAnimation,
-          builder: (_, Widget? child) {
-            return Padding(
-              padding: EdgeInsets.only(top: _slideAnimation.value.abs()),
-              child: child,
-            );
-          },
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
+    return GestureDetector(
+      onTap: () => _controller.isCompleted ? _controller.reverse() : _controller.forward(),
+      child: AnimatedBuilder(
+        animation: _slideAnimation,
+        builder: (_, Widget? child) {
+          return Padding(
+            padding: EdgeInsets.only(top: _slideAnimation.value.abs()),
+            child: child,
+          );
+        },
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            if (widget.messageWrapper.message!.createdAt != null)
               Positioned(
                 bottom: 0,
-                right: widget.message.isOwn ? 12 : null,
-                left: widget.message.isOwn ? null : 12,
+                right: widget.messageWrapper.message!.isOwn ? 12 : null,
+                left: widget.messageWrapper.message!.isOwn ? null : 12,
                 child: AnimatedBuilder(
                   animation: _opacityAnimation,
                   builder: (_, Widget? child) {
@@ -263,24 +268,23 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
                   },
                   child: Text(
                     (widget.dateFormat ?? _MessageWrapper._defaultDateFormat)
-                        .format(widget.message.createdAt!),
+                        .format(widget.messageWrapper.message!.createdAt!),
                     style: TextStyle(fontSize: 12, color: theme.secondaryHeaderColor),
                   ),
                 ),
               ),
-              // widget.child,
-              AnimatedBuilder(
-                animation: _slideAnimation,
-                builder: (_, Widget? child) {
-                  return Transform.translate(
-                    offset: Offset(0, _slideAnimation.value),
-                    child: child,
-                  );
-                },
-                child: messageChild,
-              ),
-            ],
-          ),
+            // widget.child,
+            AnimatedBuilder(
+              animation: _slideAnimation,
+              builder: (_, Widget? child) {
+                return Transform.translate(
+                  offset: Offset(0, _slideAnimation.value),
+                  child: child,
+                );
+              },
+              child: messageChild,
+            ),
+          ],
         ),
       ),
     );

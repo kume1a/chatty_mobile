@@ -1,3 +1,4 @@
+import 'package:common_utilities/common_utilities.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -32,5 +33,9 @@ abstract class NetworkModule {
   ApiService apiService(Dio dio) => ApiService(dio);
 
   @lazySingleton
-  MultipartApiService multipartApiService(Dio dio) => MultipartApiService(dio, Constants.apiUrl);
+  MultipartApiService multipartApiService(Dio dio, EventBus eventBus) => MultipartApiService(
+        dio,
+        Constants.apiUrl,
+        eventBus,
+      );
 }

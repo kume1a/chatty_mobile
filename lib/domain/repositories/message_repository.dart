@@ -7,6 +7,7 @@ import '../models/message/message.dart';
 abstract class MessageRepository {
   Future<Either<SimpleActionFailure, Message>> sendMessage({
     required int chatId,
+    required String sendId,
     String? textMessage,
     Uint8List? imageFile,
   });

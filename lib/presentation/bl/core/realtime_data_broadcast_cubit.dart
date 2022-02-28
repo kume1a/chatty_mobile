@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../../core/composite_disposable.dart';
 import '../../../domain/data_channels/message_data_channel.dart';
 import '../../../domain/models/message/message.dart';
+import '../../../domain/models/message/message_wrapper.dart';
 import 'events/event_message.dart';
 
 @injectable
@@ -20,8 +21,8 @@ class RealtimeDataBroadcastCubit extends Cubit<Unit> with CompositeDisposable<Un
 
   Future<void> init() async {
     _messageDataChannel.startListening();
-    addSubscription(_messageDataChannel.events
-        .listen((Message event) => _eventBus.fire(EventMessage.received(event))));
+    addSubscription(_messageDataChannel.events.listen((Message event) =>
+        _eventBus.fire(EventMessage.received(MessageWrapper.fromMessage(event)))));
   }
 
   @override

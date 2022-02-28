@@ -7,9 +7,11 @@ import 'package:static_i18n/static_i18n.dart';
 
 import '../../../core/composite_disposable.dart';
 import '../../../domain/helpers/image_picker_helper.dart';
+import '../../../domain/helpers/present_message_generator.dart';
 import '../../../domain/managers/permission_manager.dart';
 import '../../../domain/models/chat/chat.dart';
 import '../../../domain/models/message/message.dart';
+import '../../../domain/models/message/message_wrapper.dart';
 import '../../../domain/models/misc/named_file.dart';
 import '../../../domain/repositories/chat_repository.dart';
 import '../../../domain/repositories/message_repository.dart';
@@ -17,7 +19,6 @@ import '../../core/routes/route_arguments/chat_page_args.dart';
 import '../../i18n/translation_keys.dart';
 import '../../toasts/common/permission_status_notifier.dart';
 import '../../toasts/core/toast_notifier.dart';
-import '../../toasts/failure_notifiers/simple_action_failure_notifier.dart';
 import '../core/events/event_chat.dart';
 import '../core/events/event_message.dart';
 
@@ -31,7 +32,7 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
     this._eventBus,
     this._chatRepository,
     this._messageRepository,
-    this._simpleActionFailureNotifier,
+    this._presentMessageGenerator,
   ) : super(unit);
 
   final PermissionManager _permissionManager;
@@ -41,7 +42,7 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
   final EventBus _eventBus;
   final ChatRepository _chatRepository;
   final MessageRepository _messageRepository;
-  final SimpleActionFailureNotifier _simpleActionFailureNotifier;
+  final PresentMessageGenerator _presentMessageGenerator;
 
   late final ChatPageArgs _args;
 
@@ -90,14 +91,35 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
       return;
     }
 
+    final MessageWrapper messageWrapper = await _presentMessageGenerator.generateFromImage(
+      chatId: chat.id,
+      image: pickedImageResult.rightOrThrow!.data,
+    );
+    _eventBus.fire(EventMessage.sent(messageWrapper));
+
     final Either<SimpleActionFailure, Message> result = await _messageRepository.sendMessage(
+      sendId: messageWrapper.id,
       chatId: chat.id,
       imageFile: pickedImageResult.rightOrThrow!.data,
     );
 
     result.fold(
-      _simpleActionFailureNotifier.notify,
-      (Message r) => _eventBus.fire(EventMessage.sent(r)),
+      (SimpleActionFailure l) {
+        final MessageWrapper sentMessage = messageWrapper.copyWith(
+          failure: l,
+          isSent: true,
+          progress: 100,
+        );
+        _eventBus.fire(EventMessage.sent(sentMessage));
+      },
+      (Message r) {
+        final MessageWrapper sentMessage = messageWrapper.copyWith(
+          message: r,
+          isSent: true,
+          progress: 100,
+        );
+        _eventBus.fire(EventMessage.sent(sentMessage));
+      },
     );
   }
 

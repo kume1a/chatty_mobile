@@ -7,17 +7,18 @@ import 'package:injectable/injectable.dart';
 import '../../../core/composite_disposable.dart';
 import '../../../domain/models/chat/chat.dart';
 import '../../../domain/models/message/message.dart';
+import '../../../domain/models/message/message_wrapper.dart';
 import '../../../domain/repositories/message_repository.dart';
 import '../core/events/event_chat.dart';
 import '../core/events/event_message.dart';
 
 @injectable
-class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Message>>>
-    with CompositeDisposable<DataState<FetchFailure, DataPage<Message>>> {
+class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<MessageWrapper>>>
+    with CompositeDisposable<DataState<FetchFailure, DataPage<MessageWrapper>>> {
   ChatPageMessagesCubit(
     this._messageRepository,
     this._eventBus,
-  ) : super(const DataState<FetchFailure, DataPage<Message>>.idle());
+  ) : super(const DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
 
   final MessageRepository _messageRepository;
   final EventBus _eventBus;
@@ -30,8 +31,8 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
   Future<void> init([Object? args]) async {
     addSubscription(_eventBus.on<EventMessage>().listen((EventMessage event) {
       event.whenOrNull(
-        sent: (Message message) => _addMessageAndEmit(message),
-        received: (Message message) => _addMessageAndEmit(message),
+        sent: (MessageWrapper messageWrapper) => _addMessageAndEmit(messageWrapper),
+        received: (MessageWrapper messageWrapper) => _addMessageAndEmit(messageWrapper),
       );
     }));
 
@@ -41,7 +42,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
           _chat = chat;
 
           if (chat.isRight()) {
-            emit(const DataState<FetchFailure, DataPage<Message>>.idle());
+            emit(const DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
 
             _fetchNextPage();
           }
@@ -55,7 +56,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
   Future<void> onRefreshPressed() async => _fetchNextPage();
 
   Future<void> onRefresh() async {
-    emit(const DataState<FetchFailure, DataPage<Message>>.idle());
+    emit(const DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
 
     return _fetchNextPage();
   }
@@ -67,38 +68,58 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
 
     _fetching = true;
 
-    if (state == const DataState<FetchFailure, DataPage<Message>>.idle()) {
-      emit(const DataState<FetchFailure, DataPage<Message>>.loading());
+    if (state == const DataState<FetchFailure, DataPage<MessageWrapper>>.idle()) {
+      emit(const DataState<FetchFailure, DataPage<MessageWrapper>>.loading());
     }
 
     final Either<FetchFailure, DataPage<Message>> result = await _messageRepository.getMessages(
-      lastId: state.get?.items.lastOrNull?.id,
+      lastId: state.get?.items.lastOrNull?.message?.id,
       chatId: _chat!.rightOrThrow.id,
     );
 
     result.fold(
-      (FetchFailure l) => emit(DataState<FetchFailure, DataPage<Message>>.error(l, state.get)),
+      (FetchFailure l) =>
+          emit(DataState<FetchFailure, DataPage<MessageWrapper>>.error(l, state.get)),
       (DataPage<Message> r) {
+        final List<MessageWrapper> mapped =
+            r.items.map((Message e) => MessageWrapper.fromMessage(e)).toList();
         if (state.hasData) {
-          r.items.insertAll(0, state.getOrThrow.items);
+          mapped.insertAll(0, state.getOrThrow.items);
         }
 
-        emit(DataState<FetchFailure, DataPage<Message>>.success(r));
+        emit(DataState<FetchFailure, DataPage<MessageWrapper>>.success(DataPage<MessageWrapper>(
+          items: mapped,
+          count: r.count,
+        )));
       },
     );
 
     _fetching = false;
   }
 
-  Future<void> _addMessageAndEmit(Message message) async {
-    final DataState<FetchFailure, DataPage<Message>>? newState =
-        await state.modifyIfHasDataAndGet((DataPage<Message> data) {
-      data.items.insert(0, message);
+  Future<void> _addMessageAndEmit(MessageWrapper messageWrapper) async {
+    if (messageWrapper.message == null) {
+      return;
+    }
 
-      return data.copyWith(
-        items: data.items,
-        count: data.count + 1,
-      );
+    final DataState<FetchFailure, DataPage<MessageWrapper>>? newState =
+        await state.modifyIfHasDataAndGet((DataPage<MessageWrapper> data) {
+      final List<MessageWrapper> messages = List<MessageWrapper>.of(data.items);
+      final int presentMessageIndex =
+          messages.indexWhere((MessageWrapper e) => e.id == messageWrapper.id);
+
+      if (presentMessageIndex == -1) {
+        messages.insert(0, messageWrapper);
+        return data.copyWith(
+          items: messages,
+          count: data.count + 1,
+        );
+      }
+
+      messages.removeAt(presentMessageIndex);
+      messages.insert(presentMessageIndex, messageWrapper);
+
+      return data.copyWith(items: messages);
     });
 
     if (newState != null) {

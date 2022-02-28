@@ -30,6 +30,55 @@ class ExpandableThemeData {
     this.inkWellBorderRadius,
   });
 
+  factory ExpandableThemeData.combine(
+    ExpandableThemeData? theme,
+    ExpandableThemeData? defaults,
+  ) {
+    if (defaults == null || defaults.isEmpty()) {
+      return theme ?? empty;
+    } else if (theme == null || theme.isEmpty()) {
+      return defaults;
+    } else if (theme.isFull()) {
+      return theme;
+    } else {
+      return ExpandableThemeData(
+        iconColor: theme.iconColor ?? defaults.iconColor,
+        useInkWell: theme.useInkWell ?? defaults.useInkWell,
+        inkWellBorderRadius: theme.inkWellBorderRadius ?? defaults.inkWellBorderRadius,
+        animationDuration: theme.animationDuration ?? defaults.animationDuration,
+        scrollAnimationDuration: theme.scrollAnimationDuration ?? defaults.scrollAnimationDuration,
+        crossFadePoint: theme.crossFadePoint ?? defaults.crossFadePoint,
+        fadeCurve: theme.fadeCurve ?? defaults.fadeCurve,
+        sizeCurve: theme.sizeCurve ?? defaults.sizeCurve,
+        alignment: theme.alignment ?? defaults.alignment,
+        headerAlignment: theme.headerAlignment ?? defaults.headerAlignment,
+        bodyAlignment: theme.bodyAlignment ?? defaults.bodyAlignment,
+        iconPlacement: theme.iconPlacement ?? defaults.iconPlacement,
+        tapHeaderToExpand: theme.tapHeaderToExpand ?? defaults.tapHeaderToExpand,
+        tapBodyToExpand: theme.tapBodyToExpand ?? defaults.tapBodyToExpand,
+        tapBodyToCollapse: theme.tapBodyToCollapse ?? defaults.tapBodyToCollapse,
+        hasIcon: theme.hasIcon ?? defaults.hasIcon,
+        iconSize: theme.iconSize ?? defaults.iconSize,
+        iconPadding: theme.iconPadding ?? defaults.iconPadding,
+        iconRotationAngle: theme.iconRotationAngle ?? defaults.iconRotationAngle,
+        expandIcon: theme.expandIcon ?? defaults.expandIcon,
+        collapseIcon: theme.collapseIcon ?? defaults.collapseIcon,
+      );
+    }
+  }
+
+  factory ExpandableThemeData.withDefaults(ExpandableThemeData? theme, BuildContext context,
+      {bool rebuildOnChange = true}) {
+    if (theme != null && theme.isFull()) {
+      return theme;
+    } else {
+      return ExpandableThemeData.combine(
+        ExpandableThemeData.combine(theme, of(context, rebuildOnChange: rebuildOnChange)),
+        defaults,
+      );
+    }
+  }
+
   static const ExpandableThemeData defaults = ExpandableThemeData(
     iconColor: Colors.black54,
     useInkWell: true,
@@ -136,43 +185,6 @@ class ExpandableThemeData {
   ///The [BorderRadius] for the [InkWell], if `inkWell` is set to true
   final BorderRadius? inkWellBorderRadius;
 
-  static ExpandableThemeData combine(
-    ExpandableThemeData? theme,
-    ExpandableThemeData? defaults,
-  ) {
-    if (defaults == null || defaults.isEmpty()) {
-      return theme ?? empty;
-    } else if (theme == null || theme.isEmpty()) {
-      return defaults;
-    } else if (theme.isFull()) {
-      return theme;
-    } else {
-      return ExpandableThemeData(
-        iconColor: theme.iconColor ?? defaults.iconColor,
-        useInkWell: theme.useInkWell ?? defaults.useInkWell,
-        inkWellBorderRadius: theme.inkWellBorderRadius ?? defaults.inkWellBorderRadius,
-        animationDuration: theme.animationDuration ?? defaults.animationDuration,
-        scrollAnimationDuration: theme.scrollAnimationDuration ?? defaults.scrollAnimationDuration,
-        crossFadePoint: theme.crossFadePoint ?? defaults.crossFadePoint,
-        fadeCurve: theme.fadeCurve ?? defaults.fadeCurve,
-        sizeCurve: theme.sizeCurve ?? defaults.sizeCurve,
-        alignment: theme.alignment ?? defaults.alignment,
-        headerAlignment: theme.headerAlignment ?? defaults.headerAlignment,
-        bodyAlignment: theme.bodyAlignment ?? defaults.bodyAlignment,
-        iconPlacement: theme.iconPlacement ?? defaults.iconPlacement,
-        tapHeaderToExpand: theme.tapHeaderToExpand ?? defaults.tapHeaderToExpand,
-        tapBodyToExpand: theme.tapBodyToExpand ?? defaults.tapBodyToExpand,
-        tapBodyToCollapse: theme.tapBodyToCollapse ?? defaults.tapBodyToCollapse,
-        hasIcon: theme.hasIcon ?? defaults.hasIcon,
-        iconSize: theme.iconSize ?? defaults.iconSize,
-        iconPadding: theme.iconPadding ?? defaults.iconPadding,
-        iconRotationAngle: theme.iconRotationAngle ?? defaults.iconRotationAngle,
-        expandIcon: theme.expandIcon ?? defaults.expandIcon,
-        collapseIcon: theme.collapseIcon ?? defaults.collapseIcon,
-      );
-    }
-  }
-
   double get collapsedFadeStart => crossFadePoint! < 0.5 ? 0 : (crossFadePoint! * 2 - 1);
 
   double get collapsedFadeEnd => crossFadePoint! < 0.5 ? 2 * crossFadePoint! : 1;
@@ -248,15 +260,6 @@ class ExpandableThemeData {
         ? context.dependOnInheritedWidgetOfExactType<_ExpandableThemeNotifier>()
         : context.findAncestorWidgetOfExactType<_ExpandableThemeNotifier>();
     return notifier?.themeData ?? defaults;
-  }
-
-  static ExpandableThemeData withDefaults(ExpandableThemeData? theme, BuildContext context,
-      {bool rebuildOnChange = true}) {
-    if (theme != null && theme.isFull()) {
-      return theme;
-    } else {
-      return combine(combine(theme, of(context, rebuildOnChange: rebuildOnChange)), defaults);
-    }
   }
 }
 

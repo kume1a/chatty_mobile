@@ -46,12 +46,14 @@ class MessageRepositoryImpl implements MessageRepository {
   @override
   Future<Either<SimpleActionFailure, Message>> sendMessage({
     required int chatId,
+    required String sendId,
     String? textMessage,
     Uint8List? imageFile,
   }) async {
     final Either<SimpleActionFailure, MessageSchema> result =
         await _messageRemoteService.sendMessage(
       chatId: chatId,
+      sendId: sendId,
       textMessage: textMessage,
       imageFile: imageFile,
     );

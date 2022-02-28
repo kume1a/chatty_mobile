@@ -6,12 +6,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/composite_disposable.dart';
+import '../../../domain/helpers/present_message_generator.dart';
 import '../../../domain/models/chat/chat.dart';
 import '../../../domain/models/message/message.dart';
+import '../../../domain/models/message/message_wrapper.dart';
 import '../../../domain/repositories/chat_repository.dart';
 import '../../../domain/repositories/message_repository.dart';
 import '../../core/routes/route_arguments/chat_page_args.dart';
-import '../../toasts/failure_notifiers/simple_action_failure_notifier.dart';
 import '../core/events/event_chat.dart';
 import '../core/events/event_message.dart';
 
@@ -37,13 +38,13 @@ class ChatPageInputCubit extends Cubit<ChatPageInputState>
     this._messageRepository,
     this._chatRepository,
     this._eventBus,
-    this._simpleActionFailureNotifier,
+    this._presentMessageGenerator,
   ) : super(ChatPageInputState.initial());
 
   final MessageRepository _messageRepository;
   final ChatRepository _chatRepository;
   final EventBus _eventBus;
-  final SimpleActionFailureNotifier _simpleActionFailureNotifier;
+  final PresentMessageGenerator _presentMessageGenerator;
 
   final FocusNode inputFocusNode = FocusNode();
   final TextEditingController inputEditingController = TextEditingController();
@@ -96,16 +97,36 @@ class ChatPageInputCubit extends Cubit<ChatPageInputState>
       return;
     }
 
+    final MessageWrapper messageWrapper = await _presentMessageGenerator.generateFromText(
+      chatId: chat.id,
+      text: content,
+    );
+    _eventBus.fire(EventMessage.sent(messageWrapper));
+
     final Either<SimpleActionFailure, Message> result = await _messageRepository.sendMessage(
+      sendId: messageWrapper.id,
       chatId: chat.id,
       textMessage: content,
     );
 
     result.fold(
-      _simpleActionFailureNotifier.notify,
+      (SimpleActionFailure l) {
+        final MessageWrapper sentMessage = messageWrapper.copyWith(
+          isSent: true,
+          progress: 100,
+          failure: l,
+        );
+        _eventBus.fire(EventMessage.sent(sentMessage));
+      },
       (Message r) {
-        _eventBus.fire(EventMessage.sent(r));
         inputEditingController.clear();
+
+        final MessageWrapper sentMessage = messageWrapper.copyWith(
+          isSent: true,
+          progress: 100,
+          message: r,
+        );
+        _eventBus.fire(EventMessage.sent(sentMessage));
       },
     );
   }
