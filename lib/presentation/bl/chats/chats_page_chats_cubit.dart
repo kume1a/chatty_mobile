@@ -24,7 +24,11 @@ class ChatsPageChatsCubit extends DataPagerWithPageCubit<FetchFailure, Chat>
   Future<void> init([Object? args]) async {
     addSubscription(_eventBus.on<EventMessage>().listen((EventMessage event) {
       event.when(
-        sent: (MessageWrapper messageWrapper) => _updateLatestMessageAndEmit(messageWrapper),
+        sent: (MessageWrapper messageWrapper) {
+          if (messageWrapper.isSent) {
+            _updateLatestMessageAndEmit(messageWrapper);
+          }
+        },
         received: (MessageWrapper messageWrapper) => _updateLatestMessageAndEmit(messageWrapper),
       );
     }));

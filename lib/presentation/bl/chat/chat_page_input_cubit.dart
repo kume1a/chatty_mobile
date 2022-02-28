@@ -109,6 +109,7 @@ class ChatPageInputCubit extends Cubit<ChatPageInputState>
       textMessage: content,
     );
 
+    inputEditingController.clear();
     result.fold(
       (SimpleActionFailure l) {
         final MessageWrapper sentMessage = messageWrapper.copyWith(
@@ -119,8 +120,6 @@ class ChatPageInputCubit extends Cubit<ChatPageInputState>
         _eventBus.fire(EventMessage.sent(sentMessage));
       },
       (Message r) {
-        inputEditingController.clear();
-
         final MessageWrapper sentMessage = messageWrapper.copyWith(
           isSent: true,
           progress: 100,

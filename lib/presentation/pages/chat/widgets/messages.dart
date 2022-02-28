@@ -65,9 +65,13 @@ class _TextMessage extends StatelessWidget {
 
     final Color backgroundColor;
     if (messageWrapper.message!.isOwn) {
-      backgroundColor = messageWrapper.isSent
-          ? theme.colorScheme.secondary
-          : theme.colorScheme.secondary.withOpacity(.5);
+      if (messageWrapper.failure == null) {
+        backgroundColor = messageWrapper.isSent
+            ? theme.colorScheme.secondary
+            : theme.colorScheme.secondary.withOpacity(.5);
+      } else {
+        backgroundColor = theme.colorScheme.error;
+      }
     } else {
       backgroundColor = theme.colorScheme.secondaryContainer;
     }
