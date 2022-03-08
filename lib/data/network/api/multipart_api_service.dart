@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:common_utilities/common_utilities.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../core/named_file.dart';
 import '../schema/message/message_schema.dart';
 
 class MultipartApiService {
@@ -21,7 +20,8 @@ class MultipartApiService {
     required int chatId,
     required String sendId,
     String? textMessage,
-    Uint8List? imageFile,
+    NamedFile? imageFile,
+    NamedFile? file,
   }) async {
     final FormData formData = FormData();
 
@@ -31,8 +31,12 @@ class MultipartApiService {
     }
     if (imageFile != null) {
       final MultipartFile multipartImageFile =
-          MultipartFile.fromBytes(imageFile, filename: 'image.jpg');
+          MultipartFile.fromBytes(imageFile.data, filename: 'img.jpg');
       formData.files.add(MapEntry<String, MultipartFile>('imageFile', multipartImageFile));
+    }
+    if (file != null) {
+      final MultipartFile multipartFile = MultipartFile.fromBytes(file.data, filename: file.name);
+      formData.files.add(MapEntry<String, MultipartFile>('file', multipartFile));
     }
 
     final Response<Map<String, dynamic>> result = await _dio.fetch<Map<String, dynamic>>(

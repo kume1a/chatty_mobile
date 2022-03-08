@@ -16,6 +16,7 @@ class Message with _$Message {
     String? imageFilePath,
     String? videoFilePath,
     String? voiceFilePath,
+    String? filePath,
     String? gifUrl,
     required DateTime? createdAt,
     required bool isOwn,

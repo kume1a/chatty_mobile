@@ -13,6 +13,7 @@ abstract class TkCommon {
   static const String online = 'TkCommon.online';
   static const String logout = 'TkCommon.logout';
   static const String settings = 'TkCommon.settings';
+  static const String success = 'TkCommon.success';
 }
 
 abstract class TkError {
@@ -31,6 +32,8 @@ abstract class TkError {
   static const String cameraPermissionPermanentlyDenied =
       'TkError.cameraPermissionPermanentlyDenied';
   static const String pickImage = 'TkError.pickImage';
+  static const String pickFile = 'TkError.pickFile';
+  static const String server = 'TkError.server';
 }
 
 abstract class TkValidationError {
@@ -40,6 +43,10 @@ abstract class TkValidationError {
   static const String repeatedPasswordDoesNotMatch =
       'TkValidationError.repeatedPasswordDoesNotMatch';
   static const String shortName = 'TkValidationError.shortName';
+}
+
+abstract class TkSuccess {
+  static const String fileDownloaded = 'TkSuccess.fileDownloaded';
 }
 
 abstract class TkPageSignIn {

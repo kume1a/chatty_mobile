@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/helpers/image_picker_helper.dart';
-import '../../domain/models/misc/named_file.dart';
+import '../../core/named_file.dart';
 import '../../main.dart';
 
 @LazySingleton(as: ImagePickerHelper)

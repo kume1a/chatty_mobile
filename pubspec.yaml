@@ -40,11 +40,15 @@ dependencies:
 
   logger: ^1.1.0
   collection: ^1.15.0
-  image_picker: ^0.8.4+9
   permission_handler: ^9.2.0
   synchronized: ^3.0.0
   uuid: ^3.0.6
   image_size_getter: ^1.0.0
+
+  # files
+  file_picker: ^4.5.0
+  image_picker: ^0.8.4+9
+  path_provider: ^2.0.9
 
   common_widgets:
     git:

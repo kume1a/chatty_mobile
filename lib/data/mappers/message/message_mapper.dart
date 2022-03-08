@@ -43,6 +43,7 @@ class MessageMapper extends BaseMapper<MessageSchema, Message> {
       imageFilePath: l.imageFilePath,
       videoFilePath: l.videoFilePath,
       voiceFilePath: l.voiceFilePath,
+      filePath: l.filePath,
       gifUrl: l.gifUrl,
       createdAt: createdAt,
       isOwn: isOwn,

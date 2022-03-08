@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../bl/chat/chat_page_cubit.dart';
+import '../../../bl/chat/chat_page_file_cubit.dart';
 import '../../../bl/chat/chat_page_image_cubit.dart';
 import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
@@ -143,7 +144,7 @@ class _SendOptions extends StatelessWidget {
         Expanded(
           child: _SendOption(
             assetName: Assets.iconDocument,
-            onPressed: context.read<ChatPageCubit>().onDocumentPressed,
+            onPressed: context.read<ChatPageFileCubit>().onFilePressed,
           ),
         ),
         const SizedBox(width: 24),

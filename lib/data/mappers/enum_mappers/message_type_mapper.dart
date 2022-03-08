@@ -14,6 +14,8 @@ class MessageTypeMapper extends BaseMapper<String?, MessageType> {
         return MessageType.video;
       case 'IMAGE':
         return MessageType.image;
+      case 'FILE':
+        return MessageType.file;
       case 'VOICE':
         return MessageType.voice;
       case 'GIF':

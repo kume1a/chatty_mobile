@@ -7,6 +7,7 @@ import '../../../core/bloc_provider_alias.dart';
 import '../../../di/di_config.dart';
 import '../../../domain/models/chat/chat.dart';
 import '../../bl/chat/chat_page_cubit.dart';
+import '../../bl/chat/chat_page_file_cubit.dart';
 import '../../bl/chat/chat_page_image_cubit.dart';
 import '../../bl/chat/chat_page_input_cubit.dart';
 import '../../bl/chat/chat_page_messages_cubit.dart';
@@ -43,6 +44,10 @@ class ChatPage extends StatelessWidget {
         ),
         BlocProvider<ChatPageImageCubit>(
           create: (_) => getIt<ChatPageImageCubit>()..init(args),
+          lazy: false,
+        ),
+        BlocProvider<ChatPageFileCubit>(
+          create: (_) => getIt<ChatPageFileCubit>()..init(args),
           lazy: false,
         ),
       ],

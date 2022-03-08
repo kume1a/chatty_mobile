@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/constants.dart';
 import '../../../../domain/enums/message_type.dart';
 import '../../../../domain/models/message/message_wrapper.dart';
-import '../../../../main.dart';
+import '../../../bl/chat/chat_page_cubit.dart';
 import '../../../bl/chat/chat_page_messages_cubit.dart';
 
 class Messages extends StatelessWidget {
@@ -201,7 +201,10 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
     }
 
     return GestureDetector(
-      onTap: () => _controller.isCompleted ? _controller.reverse() : _controller.forward(),
+      onTap: () {
+        _controller.isCompleted ? _controller.reverse() : _controller.forward();
+        context.read<ChatPageCubit>().onMessagePressed(widget.messageWrapper.message);
+      },
       child: AnimatedBuilder(
         animation: _slideAnimation,
         builder: (_, Widget? child) {
@@ -321,7 +324,6 @@ class _ImageMessage extends StatelessWidget {
         url: Constants.apiUrl + (messageWrapper.message!.imageFilePath ?? ''),
         placeholderColor: theme.colorScheme.secondaryContainer,
       );
-      logger.i(Constants.apiUrl + (messageWrapper.message!.imageFilePath ?? ''));
     } else {
       image = messageWrapper.inMemoryImage != null
           ? Image.memory(messageWrapper.inMemoryImage!)

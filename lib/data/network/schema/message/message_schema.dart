@@ -17,6 +17,7 @@ class MessageSchema with _$MessageSchema {
     String? imageFilePath,
     String? videoFilePath,
     String? voiceFilePath,
+    String? filePath,
     String? gifUrl,
     String? createdAt,
     ImageMetaSchema? imageMeta,

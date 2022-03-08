@@ -7,7 +7,7 @@ import 'package:static_i18n/static_i18n.dart';
 
 import '../../../core/composite_disposable.dart';
 import '../../../core/named_file.dart';
-import '../../../domain/helpers/image_picker_helper.dart';
+import '../../../domain/helpers/file_picker_helper.dart';
 import '../../../domain/helpers/present_message_generator.dart';
 import '../../../domain/managers/permission_manager.dart';
 import '../../../domain/models/chat/chat.dart';
@@ -23,10 +23,10 @@ import '../core/events/event_chat.dart';
 import '../core/events/event_message.dart';
 
 @injectable
-class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
-  ChatPageImageCubit(
+class ChatPageFileCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
+  ChatPageFileCubit(
     this._permissionManager,
-    this._imagePickerHelper,
+    this._filePickerHelper,
     this._toastNotifier,
     this._permissionStatusNotifier,
     this._eventBus,
@@ -36,7 +36,7 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
   ) : super(unit);
 
   final PermissionManager _permissionManager;
-  final ImagePickerHelper _imagePickerHelper;
+  final FilePickerHelper _filePickerHelper;
   final ToastNotifier _toastNotifier;
   final PermissionStatusNotifier _permissionStatusNotifier;
   final EventBus _eventBus;
@@ -58,7 +58,7 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
     }));
   }
 
-  Future<void> onCameraPressed() async {
+  Future<void> onFilePressed() async {
     if (!await _permissionManager.isStoragePermissionGranted()) {
       final PermissionStatus returnedPermissionStatus =
           await _permissionManager.requestStoragePermission();
@@ -77,11 +77,11 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
       }
     }
 
-    final Either<Unit, NamedFile?> pickedImageResult = await _imagePickerHelper.pickImage();
-    if (pickedImageResult.get == null) {
+    final Either<Unit, NamedFile?> pickedFileResult = await _filePickerHelper.pickFile();
+    if (pickedFileResult.get == null) {
       _toastNotifier.notifyWarning(
         message: TkError.unknown.i18n,
-        title: TkError.pickImage.i18n,
+        title: TkError.pickFile.i18n,
       );
       return;
     }
@@ -91,16 +91,16 @@ class ChatPageImageCubit extends Cubit<Unit> with CompositeDisposable<Unit> {
       return;
     }
 
-    final MessageWrapper messageWrapper = await _presentMessageGenerator.generateFromImage(
+    final MessageWrapper messageWrapper = await _presentMessageGenerator.generateFromFile(
       chatId: chat.id,
-      image: pickedImageResult.rightOrThrow!.data,
+      file: pickedFileResult.rightOrThrow!.data,
     );
     _eventBus.fire(EventMessage.sent(messageWrapper));
 
     final Either<SimpleActionFailure, Message> result = await _messageRepository.sendMessage(
       sendId: messageWrapper.id,
       chatId: chat.id,
-      imageFile: pickedImageResult.rightOrThrow,
+      file: pickedFileResult.rightOrThrow,
     );
 
     result.fold(

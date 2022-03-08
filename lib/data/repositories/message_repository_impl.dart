@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:common_models/common_models.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../core/named_file.dart';
 import '../../domain/models/message/message.dart';
 import '../../domain/repositories/message_repository.dart';
 import '../mappers/message/message_mapper.dart';
@@ -48,7 +47,8 @@ class MessageRepositoryImpl implements MessageRepository {
     required int chatId,
     required String sendId,
     String? textMessage,
-    Uint8List? imageFile,
+    NamedFile? imageFile,
+    NamedFile? file,
   }) async {
     final Either<SimpleActionFailure, MessageSchema> result =
         await _messageRemoteService.sendMessage(
@@ -56,6 +56,7 @@ class MessageRepositoryImpl implements MessageRepository {
       sendId: sendId,
       textMessage: textMessage,
       imageFile: imageFile,
+      file: file,
     );
 
     if (result.isRight()) {

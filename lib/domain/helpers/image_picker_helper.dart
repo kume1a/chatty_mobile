@@ -1,6 +1,6 @@
 import 'package:common_models/common_models.dart';
 
-import '../models/misc/named_file.dart';
+import '../../core/named_file.dart';
 
 abstract class ImagePickerHelper {
   Future<Either<Unit, NamedFile?>> pickImage({

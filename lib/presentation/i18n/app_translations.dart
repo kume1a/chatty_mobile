@@ -28,6 +28,7 @@ class AppTranslations extends Translations {
     TkCommon.online: 'Online',
     TkCommon.logout: 'Logout',
     TkCommon.settings: 'Settings',
+    TkCommon.success: 'Success',
 
     TkError.unknown: 'Unknown error',
     TkError.network: 'Network error',
@@ -40,13 +41,17 @@ class AppTranslations extends Translations {
     TkError.storagePermissionPermanentlyDenied: 'Allow storage permission from settings to pick image from storage',
     TkError.cameraPermissionDenied: 'Allow camera permission to take image with camera',
     TkError.cameraPermissionPermanentlyDenied: 'Allow camera permission from settings to take image with camera',
-    TkError.pickImage: 'Error while picking image',
+    TkError.pickImage: 'Error while picking an image',
+    TkError.pickFile: 'Error while picking a file',
+    TkError.server: 'Unknown server error has occurred',
 
     TkValidationError.fieldIsRequired: 'Field is required',
     TkValidationError.invalidEmail: 'Invalid email',
     TkValidationError.shortPassword: 'Password is too short',
     TkValidationError.repeatedPasswordDoesNotMatch: 'Repeated password does not match password',
     TkValidationError.shortName: 'Name is too short',
+
+    TkSuccess.fileDownloaded: 'File downloaded successfully',
 
     TkPageSignIn.google: 'Google',
     TkPageSignIn.facebook: 'Facebook',
