@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 
 import '../../../domain/models/chat/chat.dart';
 import '../../../domain/models/user/user.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
-import '../../core/routes/screens_navigator.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
+import '../../core/navigation/screens_navigator.dart';
 
 @injectable
 class ChatsPageCubit extends Cubit<Unit> {

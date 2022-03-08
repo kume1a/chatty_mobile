@@ -12,7 +12,7 @@ import '../../../domain/models/message/message.dart';
 import '../../../domain/models/message/message_wrapper.dart';
 import '../../../domain/repositories/chat_repository.dart';
 import '../../../domain/repositories/message_repository.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
 import '../core/events/event_chat.dart';
 import '../core/events/event_message.dart';
 

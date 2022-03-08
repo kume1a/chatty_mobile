@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/stores/authentication_token_store.dart';
-import '../../core/routes/screens_navigator.dart';
+import '../../core/navigation/screens_navigator.dart';
 
 @injectable
 class InitPageCubit extends Cubit<Unit> {

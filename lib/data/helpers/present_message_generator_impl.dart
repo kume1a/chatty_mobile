@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:image_size_getter/image_size_getter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../domain/enums/message_type.dart';
 import '../../domain/helpers/present_message_generator.dart';
+import '../../domain/models/common/image_meta.dart';
 import '../../domain/models/message/message.dart';
 import '../../domain/models/message/message_wrapper.dart';
 import '../../domain/stores/current_user_info_store.dart';
@@ -33,9 +35,6 @@ class PresentMessageGeneratorImpl implements PresentMessageGenerator {
       chatId: chatId,
       type: MessageType.text,
       textMessage: text,
-      imageUrl: null,
-      videoUrl: null,
-      gifUrl: null,
       createdAt: DateTime.now(),
       isOwn: true,
     );
@@ -55,18 +54,19 @@ class PresentMessageGeneratorImpl implements PresentMessageGenerator {
   }) async {
     final int? currentUserId = await _currentUserInfoStore.getCurrentUserId();
     final String sendId = _uuid.v4();
+    final Size imageSize = ImageSizeGetter.getSize(MemoryInput(image));
 
     final Message message = Message(
       id: -1,
       userId: currentUserId ?? -1,
       chatId: chatId,
       type: MessageType.image,
-      textMessage: null,
-      imageUrl: null,
-      videoUrl: null,
-      gifUrl: null,
       createdAt: DateTime.now(),
       isOwn: true,
+      imageMeta: ImageMeta(
+        width: imageSize.width,
+        height: imageSize.height,
+      ),
     );
 
     return MessageWrapper(
@@ -91,10 +91,6 @@ class PresentMessageGeneratorImpl implements PresentMessageGenerator {
       userId: currentUserId ?? -1,
       chatId: chatId,
       type: MessageType.video,
-      textMessage: null,
-      imageUrl: null,
-      videoUrl: null,
-      gifUrl: null,
       createdAt: DateTime.now(),
       isOwn: true,
     );
@@ -121,10 +117,6 @@ class PresentMessageGeneratorImpl implements PresentMessageGenerator {
       userId: currentUserId ?? -1,
       chatId: chatId,
       type: MessageType.voice,
-      textMessage: null,
-      imageUrl: null,
-      videoUrl: null,
-      gifUrl: null,
       createdAt: DateTime.now(),
       isOwn: true,
     );
@@ -151,10 +143,6 @@ class PresentMessageGeneratorImpl implements PresentMessageGenerator {
       userId: currentUserId ?? -1,
       chatId: chatId,
       type: MessageType.file,
-      textMessage: null,
-      imageUrl: null,
-      videoUrl: null,
-      gifUrl: null,
       createdAt: DateTime.now(),
       isOwn: true,
     );

@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/stores/authentication_token_store.dart';
-import '../../../presentation/core/routes/screens_navigator.dart';
+import '../../../presentation/core/navigation/screens_navigator.dart';
 
 @injectable
 class AuthorizationInterceptor extends Interceptor {

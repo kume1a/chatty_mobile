@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/managers/authentication_manager.dart';
-import '../../core/routes/screens_navigator.dart';
+import '../../core/navigation/screens_navigator.dart';
 
 @injectable
 class ProfilePageCubit extends Cubit<Unit> {

@@ -15,7 +15,7 @@ import '../../../domain/models/message/message_wrapper.dart';
 import '../../../domain/models/misc/named_file.dart';
 import '../../../domain/repositories/chat_repository.dart';
 import '../../../domain/repositories/message_repository.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
 import '../../i18n/translation_keys.dart';
 import '../../toasts/common/permission_status_notifier.dart';
 import '../../toasts/core/toast_notifier.dart';

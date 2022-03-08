@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:common_models/common_models.dart';
+import 'package:common_widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/constants.dart';
 import '../../../../domain/enums/message_type.dart';
 import '../../../../domain/models/message/message_wrapper.dart';
+import '../../../../main.dart';
 import '../../../bl/chat/chat_page_messages_cubit.dart';
 
 class Messages extends StatelessWidget {
@@ -46,57 +51,6 @@ class Messages extends StatelessWidget {
           orElse: () => const SliverToBoxAdapter(),
         );
       },
-    );
-  }
-}
-
-class _TextMessage extends StatelessWidget {
-  const _TextMessage({
-    Key? key,
-    required this.messageWrapper,
-  }) : super(key: key);
-
-  final MessageWrapper messageWrapper;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final MediaQueryData mediaQueryData = MediaQuery.of(context);
-
-    final Color backgroundColor;
-    if (messageWrapper.message!.isOwn) {
-      if (messageWrapper.failure == null) {
-        backgroundColor = messageWrapper.isSent
-            ? theme.colorScheme.secondary
-            : theme.colorScheme.secondary.withOpacity(.5);
-      } else {
-        backgroundColor = theme.colorScheme.error;
-      }
-    } else {
-      backgroundColor = theme.colorScheme.secondaryContainer;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-      constraints: BoxConstraints(
-        maxWidth: mediaQueryData.size.width * .6,
-      ),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(6),
-          topRight: const Radius.circular(6),
-          bottomRight: messageWrapper.message!.isOwn ? Radius.zero : const Radius.circular(6),
-          bottomLeft: messageWrapper.message!.isOwn ? const Radius.circular(6) : Radius.zero,
-        ),
-      ),
-      child: Text(
-        messageWrapper.message!.textMessage ?? '',
-        style: TextStyle(
-          color: messageWrapper.message!.isOwn ? Colors.white : null,
-        ),
-      ),
     );
   }
 }
@@ -236,11 +190,13 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
       case MessageType.text:
       case MessageType.voice:
       case MessageType.video:
-      case MessageType.image:
       case MessageType.gif:
       case MessageType.file:
       case MessageType.unknown:
         messageChild = _TextMessage(messageWrapper: widget.messageWrapper);
+        break;
+      case MessageType.image:
+        messageChild = _ImageMessage(messageWrapper: widget.messageWrapper);
         break;
     }
 
@@ -291,6 +247,102 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
           ],
         ),
       ),
+    );
+  }
+}
+
+class _TextMessage extends StatelessWidget {
+  const _TextMessage({
+    Key? key,
+    required this.messageWrapper,
+  }) : super(key: key);
+
+  final MessageWrapper messageWrapper;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
+
+    final Color backgroundColor;
+    if (messageWrapper.message!.isOwn) {
+      if (messageWrapper.failure == null) {
+        backgroundColor = messageWrapper.isSent
+            ? theme.colorScheme.secondary
+            : theme.colorScheme.secondary.withOpacity(.5);
+      } else {
+        backgroundColor = theme.colorScheme.error;
+      }
+    } else {
+      backgroundColor = theme.colorScheme.secondaryContainer;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+      constraints: BoxConstraints(
+        maxWidth: mediaQueryData.size.width * .6,
+      ),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(6),
+          topRight: const Radius.circular(6),
+          bottomRight: messageWrapper.message!.isOwn ? Radius.zero : const Radius.circular(6),
+          bottomLeft: messageWrapper.message!.isOwn ? const Radius.circular(6) : Radius.zero,
+        ),
+      ),
+      child: Text(
+        messageWrapper.message!.textMessage ?? '',
+        style: TextStyle(
+          color: messageWrapper.message!.isOwn ? Colors.white : null,
+        ),
+      ),
+    );
+  }
+}
+
+class _ImageMessage extends StatelessWidget {
+  const _ImageMessage({
+    Key? key,
+    required this.messageWrapper,
+  }) : super(key: key);
+
+  final MessageWrapper messageWrapper;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
+
+    Widget image;
+    if (messageWrapper.isSent) {
+      image = SafeImage(
+        url: Constants.apiUrl + (messageWrapper.message!.imageFilePath ?? ''),
+        placeholderColor: theme.colorScheme.secondaryContainer,
+      );
+      logger.i(Constants.apiUrl + (messageWrapper.message!.imageFilePath ?? ''));
+    } else {
+      image = messageWrapper.inMemoryImage != null
+          ? Image.memory(messageWrapper.inMemoryImage!)
+          : ColoredBox(color: theme.colorScheme.secondaryContainer);
+    }
+
+    final double base = mediaQueryData.size.width * .6;
+    final int imageWidth = messageWrapper.message!.imageMeta?.width ?? 0;
+    final int imageHeight = messageWrapper.message!.imageMeta?.height ?? 0;
+    final double scale = (max(imageWidth, imageHeight) / 1280).clamp(0, 1);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      constraints: BoxConstraints.tight(Size(
+        (scale * imageWidth).clamp(base / 2, base),
+        (scale * imageHeight).clamp(base / 2, base),
+      )),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: image,
     );
   }
 }

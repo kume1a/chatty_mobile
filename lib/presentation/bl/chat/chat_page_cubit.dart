@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../../core/composite_disposable.dart';
 import '../../../domain/models/chat/chat.dart';
 import '../../../domain/repositories/chat_repository.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
 import '../core/events/event_chat.dart';
 
 @injectable

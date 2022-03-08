@@ -7,7 +7,7 @@ import 'package:static_i18n/static_i18n.dart';
 
 import 'di/di_config.dart';
 import 'presentation/app.dart';
-import 'presentation/core/routes/navigator_key_holder.dart';
+import 'presentation/core/navigation/navigator_key_holder.dart';
 import 'presentation/i18n/app_locales.dart';
 import 'presentation/i18n/app_translations.dart';
 

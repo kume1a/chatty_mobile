@@ -11,7 +11,7 @@ import '../../bl/chat/chat_page_image_cubit.dart';
 import '../../bl/chat/chat_page_input_cubit.dart';
 import '../../bl/chat/chat_page_messages_cubit.dart';
 import '../../bl/chat/chat_page_user_cubit.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
 import 'widgets/widgets.dart';
 
 class ChatPage extends StatelessWidget {

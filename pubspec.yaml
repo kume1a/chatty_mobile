@@ -44,6 +44,7 @@ dependencies:
   permission_handler: ^9.2.0
   synchronized: ^3.0.0
   uuid: ^3.0.6
+  image_size_getter: ^1.0.0
 
   common_widgets:
     git:

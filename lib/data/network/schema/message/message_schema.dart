@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../common/image_meta_schema.dart';
+
 part 'message_schema.freezed.dart';
 
 part 'message_schema.g.dart';
@@ -12,10 +14,12 @@ class MessageSchema with _$MessageSchema {
     int? chatId,
     String? type,
     String? textMessage,
-    String? imageUrl,
-    String? videoUrl,
+    String? imageFilePath,
+    String? videoFilePath,
+    String? voiceFilePath,
     String? gifUrl,
     String? createdAt,
+    ImageMetaSchema? imageMeta,
   }) = _MessageSchema;
 
   factory MessageSchema.fromJson(Map<String, dynamic> json) => _$MessageSchemaFromJson(json);

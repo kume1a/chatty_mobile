@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../domain/models/user/user.dart';
 import '../../../domain/repositories/user_repository.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
 
 @injectable
 class ChatPageUserCubit extends Cubit<DataState<FetchFailure, User>> {

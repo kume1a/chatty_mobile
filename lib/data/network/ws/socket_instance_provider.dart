@@ -6,7 +6,7 @@ import 'package:synchronized/synchronized.dart';
 import '../../../core/constants.dart';
 import '../../../domain/stores/authentication_token_store.dart';
 import '../../../main.dart';
-import '../../../presentation/core/routes/screens_navigator.dart';
+import '../../../presentation/core/navigation/screens_navigator.dart';
 
 @lazySingleton
 class SocketInstanceProvider {

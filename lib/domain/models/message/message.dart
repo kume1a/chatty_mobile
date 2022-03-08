@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../enums/message_type.dart';
+import '../common/image_meta.dart';
 
 part 'message.freezed.dart';
 
@@ -11,11 +12,13 @@ class Message with _$Message {
     required int userId,
     required int chatId,
     required MessageType type,
-    required String? textMessage,
-    required String? imageUrl,
-    required String? videoUrl,
-    required String? gifUrl,
+    String? textMessage,
+    String? imageFilePath,
+    String? videoFilePath,
+    String? voiceFilePath,
+    String? gifUrl,
     required DateTime? createdAt,
     required bool isOwn,
+    ImageMeta? imageMeta,
   }) = _Message;
 }

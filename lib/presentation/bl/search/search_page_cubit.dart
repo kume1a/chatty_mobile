@@ -7,8 +7,8 @@ import 'package:injectable/injectable.dart';
 import '../../../domain/models/user/user.dart';
 import '../../../domain/repositories/user_repository.dart';
 import '../../../domain/stores/current_user_info_store.dart';
-import '../../core/routes/route_arguments/chat_page_args.dart';
-import '../../core/routes/screens_navigator.dart';
+import '../../core/navigation/route_arguments/chat_page_args.dart';
+import '../../core/navigation/screens_navigator.dart';
 
 @injectable
 class SearchPageCubit extends Cubit<DataState<FetchFailure, List<User>>> {
