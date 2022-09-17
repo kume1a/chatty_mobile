@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:static_i18n/static_i18n.dart';
+
 import '../../core/widgets/common/simple_app_bar.dart';
 import '../../i18n/translation_keys.dart';
 
 class TermsOfServicePage extends StatelessWidget {
-  const TermsOfServicePage({Key? key}) : super(key: key);
+  const TermsOfServicePage({super.key});
 
   @override
   Widget build(BuildContext context) {

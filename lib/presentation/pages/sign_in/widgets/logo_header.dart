@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../core/values/assets.dart';
 
 class LogoHeader extends StatelessWidget {
-  const LogoHeader({Key? key}) : super(key: key);
+  const LogoHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

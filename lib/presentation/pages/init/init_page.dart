@@ -5,7 +5,7 @@ import '../../../di/di_config.dart';
 import '../../bl/init/init_page_cubit.dart';
 
 class InitPage extends StatelessWidget {
-  const InitPage({Key? key}) : super(key: key);
+  const InitPage({super.key});
 
   @override
   Widget build(BuildContext context) {

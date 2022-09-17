@@ -4,10 +4,10 @@ import 'default_back_button.dart';
 
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SimpleAppBar({
-    Key? key,
+    super.key,
     this.title,
     this.centerTitle = true,
-  }) : super(key: key);
+  });
 
   final String? title;
   final bool centerTitle;

@@ -8,7 +8,7 @@ import '../../../bl/core/shared_blocs/current_user_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {

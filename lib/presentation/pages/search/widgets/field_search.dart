@@ -6,7 +6,7 @@ import '../../../bl/search/search_page_cubit.dart';
 import '../../../i18n/translation_keys.dart';
 
 class FieldSearch extends StatelessWidget {
-  const FieldSearch({Key? key}) : super(key: key);
+  const FieldSearch({super.key});
 
   @override
   Widget build(BuildContext context) {

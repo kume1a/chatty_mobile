@@ -12,7 +12,7 @@ import '../../i18n/translation_keys.dart';
 import 'widgets/widgets.dart';
 
 class ChatsPage extends StatelessWidget {
-  const ChatsPage({Key? key}) : super(key: key);
+  const ChatsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class ChatsPage extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content();
 
   @override
   Widget build(BuildContext context) {

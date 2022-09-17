@@ -17,9 +17,9 @@ import 'widgets/widgets.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final ChatPageArgs args;
 
@@ -57,7 +57,7 @@ class ChatPage extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _Content extends StatelessWidget {
               loading: () => const Center(
                 child: CircularProgressIndicator(),
               ),
-              error: (_, __) => Center(
+              failure: (_, __) => Center(
                 child: IconButton(
                   onPressed: context.read<ChatPageCubit>().onRefresh,
                   icon: const Icon(Icons.refresh),

@@ -46,7 +46,7 @@ abstract class DataPagerWithLastIdCubit<F extends Object?, T extends Object?, ID
     final Either<F, DataPage<T>> result = await provideDataPage(id);
 
     result.fold(
-      (F l) => emit(DataState<F, DataPage<T>>.error(l, state.get)),
+      (F l) => emit(DataState<F, DataPage<T>>.failure(l, state.get)),
       (DataPage<T> r) {
         if (state.hasData) {
           r.items.insertAll(0, state.getOrThrow.items);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DefaultBackButton extends StatelessWidget {
-  const DefaultBackButton({Key? key}) : super(key: key);
+  const DefaultBackButton({super.key});
 
   static IconData _getIconData(TargetPlatform platform) {
     switch (platform) {

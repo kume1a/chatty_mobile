@@ -17,12 +17,12 @@ class FetchFailureNotifier extends FailureNotifier<FetchFailure> {
   @override
   void notify(FetchFailure failure) {
     failure.when(
-      serverError: () => _toastNotifier.notifyError(
+      server: () => _toastNotifier.notifyError(
         message: TkError.server.i18n,
         title: TkCommon.error.i18n,
       ),
-      networkError: () => _toastNotifier.notifyNetworkError(),
-      unknownError: () => _toastNotifier.notifyUnknownError(),
+      network: () => _toastNotifier.notifyNetworkError(),
+      unknown: () => _toastNotifier.notifyUnknownError(),
     );
   }
 }

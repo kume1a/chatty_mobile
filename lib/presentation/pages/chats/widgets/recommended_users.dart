@@ -9,7 +9,7 @@ import '../../../bl/chats/chats_page_recommended_users_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class RecommendedUsers extends StatelessWidget {
-  const RecommendedUsers({Key? key}) : super(key: key);
+  const RecommendedUsers({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,8 @@ class RecommendedUsers extends StatelessWidget {
 
 class _Item extends StatelessWidget {
   const _Item({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final User user;
 

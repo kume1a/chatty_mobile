@@ -43,7 +43,7 @@ abstract class DataPagerWithPageCubit<F extends Object?, T extends Object?>
     final Either<F, DataPage<T>> result = await provideDataPage(_page);
 
     result.fold(
-      (F l) => emit(DataState<F, DataPage<T>>.error(l, state.get)),
+      (F l) => emit(DataState<F, DataPage<T>>.failure(l, state.get)),
       (DataPage<T> r) {
         if (state.hasData) {
           r.items.insertAll(0, state.getOrThrow.items);

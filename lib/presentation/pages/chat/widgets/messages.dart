@@ -13,7 +13,7 @@ import '../../../bl/chat/chat_page_cubit.dart';
 import '../../../bl/chat/chat_page_messages_cubit.dart';
 
 class Messages extends StatelessWidget {
-  const Messages({Key? key}) : super(key: key);
+  const Messages({super.key});
 
   static final DateFormat _dateFormat = DateFormat('dd MMMM');
 
@@ -57,7 +57,7 @@ class Messages extends StatelessWidget {
 
 class _SliverGroupedListView<T, E> extends StatelessWidget {
   const _SliverGroupedListView({
-    Key? key,
+    super.key,
     required this.elements,
     required this.groupBy,
     required this.itemBuilder,
@@ -66,8 +66,7 @@ class _SliverGroupedListView<T, E> extends StatelessWidget {
     this.separator = const SizedBox.shrink(),
     this.extraItemBuilder,
     this.onExtraItemBuilt,
-  })  : assert(groupSeparatorBuilder != null || groupHeaderBuilder != null),
-        super(key: key);
+  }) : assert(groupSeparatorBuilder != null || groupHeaderBuilder != null);
 
   final List<T> elements;
   final E Function(T element) groupBy;
@@ -126,13 +125,10 @@ class _SliverGroupedListView<T, E> extends StatelessWidget {
 
 class _MessageWrapper extends StatefulWidget {
   const _MessageWrapper({
-    Key? key,
     required this.messageWrapper,
-    this.dateFormat,
-  }) : super(key: key);
+  });
 
   final MessageWrapper messageWrapper;
-  final DateFormat? dateFormat;
 
   static final DateFormat _defaultDateFormat = DateFormat('dd/MM hh:mm');
 
@@ -230,7 +226,7 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
                     );
                   },
                   child: Text(
-                    (widget.dateFormat ?? _MessageWrapper._defaultDateFormat)
+                    _MessageWrapper._defaultDateFormat
                         .format(widget.messageWrapper.message!.createdAt!),
                     style: TextStyle(fontSize: 12, color: theme.secondaryHeaderColor),
                   ),
@@ -256,9 +252,8 @@ class _MessageWrapperState extends State<_MessageWrapper> with SingleTickerProvi
 
 class _TextMessage extends StatelessWidget {
   const _TextMessage({
-    Key? key,
     required this.messageWrapper,
-  }) : super(key: key);
+  });
 
   final MessageWrapper messageWrapper;
 
@@ -307,9 +302,8 @@ class _TextMessage extends StatelessWidget {
 
 class _ImageMessage extends StatelessWidget {
   const _ImageMessage({
-    Key? key,
     required this.messageWrapper,
-  }) : super(key: key);
+  });
 
   final MessageWrapper messageWrapper;
 

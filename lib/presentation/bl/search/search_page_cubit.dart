@@ -16,7 +16,7 @@ class SearchPageCubit extends Cubit<DataState<FetchFailure, List<User>>> {
     this._screensNavigator,
     this._userRepository,
     this._currentUserInfoStore,
-  ) : super(const DataState<FetchFailure, List<User>>.idle());
+  ) : super(DataState<FetchFailure, List<User>>.idle());
 
   final ScreensNavigator _screensNavigator;
   final UserRepository _userRepository;

@@ -6,7 +6,7 @@ import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class ButtonSend extends StatelessWidget {
-  const ButtonSend({Key? key}) : super(key: key);
+  const ButtonSend({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -18,7 +18,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
   ChatPageMessagesCubit(
     this._messageRepository,
     this._eventBus,
-  ) : super(const DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
+  ) : super(DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
 
   final MessageRepository _messageRepository;
   final EventBus _eventBus;
@@ -42,7 +42,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
           _chat = chat;
 
           if (chat.isRight()) {
-            emit(const DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
+            emit(DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
 
             _fetchNextPage();
           }
@@ -56,7 +56,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
   Future<void> onRefreshPressed() async => _fetchNextPage();
 
   Future<void> onRefresh() async {
-    emit(const DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
+    emit(DataState<FetchFailure, DataPage<MessageWrapper>>.idle());
 
     return _fetchNextPage();
   }
@@ -68,8 +68,8 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
 
     _fetching = true;
 
-    if (state == const DataState<FetchFailure, DataPage<MessageWrapper>>.idle()) {
-      emit(const DataState<FetchFailure, DataPage<MessageWrapper>>.loading());
+    if (state == DataState<FetchFailure, DataPage<MessageWrapper>>.idle()) {
+      emit(DataState<FetchFailure, DataPage<MessageWrapper>>.loading());
     }
 
     final Either<FetchFailure, DataPage<Message>> result = await _messageRepository.getMessages(
@@ -79,7 +79,7 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
 
     result.fold(
       (FetchFailure l) =>
-          emit(DataState<FetchFailure, DataPage<MessageWrapper>>.error(l, state.get)),
+          emit(DataState<FetchFailure, DataPage<MessageWrapper>>.failure(l, state.get)),
       (DataPage<Message> r) {
         final List<MessageWrapper> mapped =
             r.items.map((Message e) => MessageWrapper.fromMessage(e)).toList();
@@ -102,8 +102,8 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
       return;
     }
 
-    final DataState<FetchFailure, DataPage<MessageWrapper>>? newState =
-        await state.modifyIfHasDataAndGet((DataPage<MessageWrapper> data) {
+    final DataState<FetchFailure, DataPage<MessageWrapper>> newState =
+        await state.modifyData((DataPage<MessageWrapper> data) {
       final List<MessageWrapper> messages = List<MessageWrapper>.of(data.items);
       final int presentMessageIndex =
           messages.indexWhere((MessageWrapper e) => e.id == messageWrapper.id);
@@ -122,8 +122,6 @@ class ChatPageMessagesCubit extends Cubit<DataState<FetchFailure, DataPage<Messa
       return data.copyWith(items: messages);
     });
 
-    if (newState != null) {
-      emit(newState);
-    }
+    emit(newState);
   }
 }

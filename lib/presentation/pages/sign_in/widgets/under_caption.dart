@@ -7,7 +7,7 @@ import '../../../bl/sign_in/sign_in_page_cubit.dart';
 import '../../../i18n/translation_keys.dart';
 
 class UnderCaption extends StatelessWidget {
-  const UnderCaption({Key? key}) : super(key: key);
+  const UnderCaption({super.key});
 
   @override
   Widget build(BuildContext context) {

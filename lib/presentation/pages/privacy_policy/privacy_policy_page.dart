@@ -5,7 +5,7 @@ import '../../core/widgets/common/simple_app_bar.dart';
 import '../../i18n/translation_keys.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
-  const PrivacyPolicyPage({Key? key}) : super(key: key);
+  const PrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {

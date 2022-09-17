@@ -7,7 +7,7 @@ import '../../../bl/sign_up/sign_up_page_cubit.dart';
 import '../../../i18n/translation_keys.dart';
 
 class Conditions extends StatelessWidget {
-  const Conditions({Key? key}) : super(key: key);
+  const Conditions({super.key});
 
   @override
   Widget build(BuildContext context) {

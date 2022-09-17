@@ -10,7 +10,7 @@ import 'core/values/themes.dart';
 import 'i18n/app_locales.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {

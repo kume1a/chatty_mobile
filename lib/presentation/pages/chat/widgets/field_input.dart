@@ -6,7 +6,7 @@ import '../../../bl/chat/chat_page_input_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class FieldInput extends StatelessWidget {
-  const FieldInput({Key? key}) : super(key: key);
+  const FieldInput({super.key});
 
   @override
   Widget build(BuildContext context) {

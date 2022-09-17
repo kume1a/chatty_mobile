@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DefaultCloseButton extends StatelessWidget {
-  const DefaultCloseButton({Key? key}) : super(key: key);
+  const DefaultCloseButton({super.key});
 
   @override
   Widget build(BuildContext context) {

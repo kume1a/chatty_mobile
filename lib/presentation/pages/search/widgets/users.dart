@@ -8,7 +8,7 @@ import '../../../bl/search/search_page_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class Users extends StatelessWidget {
-  const Users({Key? key}) : super(key: key);
+  const Users({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,8 @@ class Users extends StatelessWidget {
 
 class _Item extends StatelessWidget {
   const _Item({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final User user;
 

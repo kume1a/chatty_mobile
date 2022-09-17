@@ -11,7 +11,7 @@ import '../../../bl/chats/chats_page_cubit.dart';
 import '../../../core/values/assets.dart';
 
 class Chats extends StatelessWidget {
-  const Chats({Key? key}) : super(key: key);
+  const Chats({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +33,8 @@ class Chats extends StatelessWidget {
 
 class _Item extends StatelessWidget {
   const _Item({
-    Key? key,
     required this.chat,
-  }) : super(key: key);
+  });
 
   final Chat chat;
 

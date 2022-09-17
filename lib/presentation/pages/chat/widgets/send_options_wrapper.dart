@@ -10,9 +10,9 @@ import '../../../core/values/assets.dart';
 
 class SendOptionsWrapper extends StatefulWidget {
   const SendOptionsWrapper({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
@@ -121,7 +121,7 @@ class _SendOptionsWrapperState extends State<SendOptionsWrapper>
 }
 
 class _SendOptions extends StatelessWidget {
-  const _SendOptions({Key? key}) : super(key: key);
+  const _SendOptions();
 
   @override
   Widget build(BuildContext context) {
@@ -161,10 +161,9 @@ class _SendOptions extends StatelessWidget {
 
 class _SendOption extends StatelessWidget {
   const _SendOption({
-    Key? key,
     required this.assetName,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String assetName;
   final VoidCallback onPressed;

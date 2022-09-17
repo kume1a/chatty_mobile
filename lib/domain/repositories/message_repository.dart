@@ -1,7 +1,7 @@
 import 'package:common_models/common_models.dart';
 
-import '../models/message/message.dart';
 import '../../core/named_file.dart';
+import '../models/message/message.dart';
 
 abstract class MessageRepository {
   Future<Either<SimpleActionFailure, Message>> sendMessage({

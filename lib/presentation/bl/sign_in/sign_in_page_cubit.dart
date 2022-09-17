@@ -16,15 +16,15 @@ part 'sign_in_page_cubit.freezed.dart';
 class SignInPageState with _$SignInPageState {
   const factory SignInPageState({
     required bool showErrors,
-    required EmailVVO email,
-    required PasswordVVO password,
+    required Email email,
+    required Password password,
     required bool isPasswordFieldObscured,
   }) = _SignInPageState;
 
   factory SignInPageState.initial() => SignInPageState(
         showErrors: false,
-        email: EmailVVO.empty(),
-        password: PasswordVVO.empty(),
+        email: Email.empty(),
+        password: Password.empty(),
         isPasswordFieldObscured: true,
       );
 }
@@ -45,9 +45,9 @@ class SignInPageCubit extends Cubit<SignInPageState> {
   final AuthenticationManager _authenticationManager;
   final SignInFailureNotifier _signInFailureNotifier;
 
-  void onEmailChanged(String value) => emit(state.copyWith(email: EmailVVO(value)));
+  void onEmailChanged(String value) => emit(state.copyWith(email: Email(value)));
 
-  void onPasswordChanged(String value) => emit(state.copyWith(password: PasswordVVO(value)));
+  void onPasswordChanged(String value) => emit(state.copyWith(password: Password(value)));
 
   void onObscurePasswordPressed() =>
       emit(state.copyWith(isPasswordFieldObscured: !state.isPasswordFieldObscured));
@@ -69,7 +69,7 @@ class SignInPageCubit extends Cubit<SignInPageState> {
   Future<void> onSignInPressed() async {
     emit(state.copyWith(showErrors: true));
 
-    if (!state.email.isValid || !state.password.isValid) {
+    if (state.email.invalid || state.password.invalid) {
       return;
     }
 

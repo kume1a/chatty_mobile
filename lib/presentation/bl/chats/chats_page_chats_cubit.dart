@@ -45,8 +45,8 @@ class ChatsPageChatsCubit extends DataPagerWithPageCubit<FetchFailure, Chat>
       return;
     }
 
-    final DataState<FetchFailure, DataPage<Chat>>? newState =
-        await state.modifyIfHasDataAndGet((DataPage<Chat> data) {
+    final DataState<FetchFailure, DataPage<Chat>> newState =
+        await state.modifyData((DataPage<Chat> data) {
       final List<Chat> chats = List<Chat>.of(data.items);
       final int index = chats.indexWhere((Chat e) => e.id == messageWrapper.message!.chatId);
       if (index == -1) {
@@ -60,8 +60,6 @@ class ChatsPageChatsCubit extends DataPagerWithPageCubit<FetchFailure, Chat>
       return data.copyWith(items: chats);
     });
 
-    if (newState != null) {
-      emit(newState);
-    }
+    emit(newState);
   }
 }

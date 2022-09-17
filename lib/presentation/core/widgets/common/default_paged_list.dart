@@ -7,7 +7,7 @@ import '../indicators/unknown_error_refresh_indicator.dart';
 
 class DefaultPagedList<T> extends StatelessWidget {
   const DefaultPagedList({
-    Key? key,
+    super.key,
     required this.data,
     required this.itemBuilder,
     required this.onScrolledToEnd,
@@ -22,11 +22,10 @@ class DefaultPagedList<T> extends StatelessWidget {
     this.idleBuilder,
   })  : isSliver = false,
         listBuilderConfig = config,
-        sliverBuilderConfig = null,
-        super(key: key);
+        sliverBuilderConfig = null;
 
   const DefaultPagedList.sliver({
-    Key? key,
+    super.key,
     required this.data,
     required this.itemBuilder,
     required this.onScrolledToEnd,
@@ -41,8 +40,7 @@ class DefaultPagedList<T> extends StatelessWidget {
     this.idleBuilder,
   })  : isSliver = true,
         listBuilderConfig = null,
-        sliverBuilderConfig = config,
-        super(key: key);
+        sliverBuilderConfig = config;
 
   final bool isSliver;
 
@@ -88,7 +86,7 @@ class DefaultPagedList<T> extends StatelessWidget {
           loadingBuilder: loadingIndicatorBuilder,
         );
       },
-      error: (FetchFailure failure, DataPage<T>? data) {
+      failure: (FetchFailure failure, DataPage<T>? data) {
         if (isSliver) {
           return RefreshableList<T>.sliver(
             data: data?.items,
@@ -96,7 +94,7 @@ class DefaultPagedList<T> extends StatelessWidget {
             config: sliverBuilderConfig,
             emptyListErrorBuilder: emptyListErrorBuilder ??
                 (_) => failure.maybeWhen(
-                      networkError: () => NoInternetRefreshIndicator(
+                      network: () => NoInternetRefreshIndicator(
                         onRefreshPressed: onRefreshPressed,
                       ),
                       orElse: () => UnknownErrorRefreshIndicator(
@@ -113,7 +111,7 @@ class DefaultPagedList<T> extends StatelessWidget {
           config: listBuilderConfig,
           emptyListErrorBuilder: emptyListErrorBuilder ??
               (_) => failure.maybeWhen(
-                    networkError: () => NoInternetRefreshIndicator(
+                    network: () => NoInternetRefreshIndicator(
                       onRefreshPressed: onRefreshPressed,
                     ),
                     orElse: () => UnknownErrorRefreshIndicator(

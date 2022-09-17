@@ -8,7 +8,7 @@ import '../../../core/values/assets.dart';
 import '../../../i18n/translation_keys.dart';
 
 class ButtonGoogle extends StatelessWidget {
-  const ButtonGoogle({Key? key}) : super(key: key);
+  const ButtonGoogle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ButtonGoogle extends StatelessWidget {
 }
 
 class ButtonFacebook extends StatelessWidget {
-  const ButtonFacebook({Key? key}) : super(key: key);
+  const ButtonFacebook({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +35,10 @@ class ButtonFacebook extends StatelessWidget {
 
 class _SocialButton extends StatelessWidget {
   const _SocialButton({
-    Key? key,
     required this.label,
     required this.assetName,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String label;
   final String assetName;

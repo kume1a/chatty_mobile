@@ -9,7 +9,7 @@ import '../../../core/values/assets.dart';
 import '../../../i18n/translation_keys.dart';
 
 class FieldPassword extends StatelessWidget {
-  const FieldPassword({Key? key}) : super(key: key);
+  const FieldPassword({super.key});
 
   @override
   Widget build(_) {
@@ -36,9 +36,10 @@ class FieldPassword extends StatelessWidget {
           ),
           onChanged: context.read<SignUpPageCubit>().onPasswordChanged,
           validator: (_) => context.read<SignUpPageCubit>().state.password.value.fold(
-                (PasswordFailure l) => l.whenOrNull(
-                  shortPassword: () => TkValidationError.shortPassword.i18n,
+                (PasswordFailure l) => l.maybeWhen(
+                  tooShort: () => TkValidationError.shortPassword.i18n,
                   empty: () => TkValidationError.fieldIsRequired.i18n,
+                  orElse: () => null,
                 ),
                 (_) => null,
               ),

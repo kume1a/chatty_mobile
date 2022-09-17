@@ -9,7 +9,7 @@ import '../../../core/values/assets.dart';
 import '../../../i18n/translation_keys.dart';
 
 class FieldRepeatPassword extends StatelessWidget {
-  const FieldRepeatPassword({Key? key}) : super(key: key);
+  const FieldRepeatPassword({super.key});
 
   @override
   Widget build(_) {
@@ -36,9 +36,10 @@ class FieldRepeatPassword extends StatelessWidget {
           ),
           onChanged: context.read<SignUpPageCubit>().onRepeatedPasswordChanged,
           validator: (_) => context.read<SignUpPageCubit>().state.repeatedPassword.value.fold(
-                (RepeatedPasswordFailure l) => l.whenOrNull(
-                  doesntMatch: () => TkValidationError.repeatedPasswordDoesNotMatch.i18n,
-                  none: () => TkValidationError.fieldIsRequired.i18n,
+                (RepeatedPasswordFailure l) => l.maybeWhen(
+                  doesNotMatch: () => TkValidationError.repeatedPasswordDoesNotMatch.i18n,
+                  empty: () => TkValidationError.fieldIsRequired.i18n,
+                  orElse: () => null,
                 ),
                 (_) => null,
               ),

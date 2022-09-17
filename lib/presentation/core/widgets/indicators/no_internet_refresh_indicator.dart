@@ -3,9 +3,9 @@ import 'package:static_i18n/static_i18n.dart';
 
 class NoInternetRefreshIndicator extends StatelessWidget {
   const NoInternetRefreshIndicator({
-    Key? key,
+    super.key,
     required this.onRefreshPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onRefreshPressed;
 

@@ -7,7 +7,7 @@ import '../../../bl/sign_up/sign_up_page_cubit.dart';
 import '../../../i18n/translation_keys.dart';
 
 class FieldFirstName extends StatelessWidget {
-  const FieldFirstName({Key? key}) : super(key: key);
+  const FieldFirstName({super.key});
 
   @override
   Widget build(BuildContext context) {

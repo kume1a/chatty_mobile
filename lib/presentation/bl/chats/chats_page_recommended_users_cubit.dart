@@ -9,7 +9,7 @@ import '../../../domain/repositories/user_repository.dart';
 class ChatsPageRecommendedUsersCubit extends Cubit<DataState<FetchFailure, List<User>>> {
   ChatsPageRecommendedUsersCubit(
     this._userRepository,
-  ) : super(const DataState<FetchFailure, List<User>>.idle());
+  ) : super(DataState<FetchFailure, List<User>>.idle());
 
   final UserRepository _userRepository;
 
@@ -18,7 +18,7 @@ class ChatsPageRecommendedUsersCubit extends Cubit<DataState<FetchFailure, List<
   Future<void> onRefresh() async => _fetchRecommendedUsers();
 
   Future<void> _fetchRecommendedUsers() async {
-    emit(const DataState<FetchFailure, List<User>>.loading());
+    emit(DataState<FetchFailure, List<User>>.loading());
     final Either<FetchFailure, List<User>> result = await _userRepository.getChatRecommendedUsers();
     emit(DataState<FetchFailure, List<User>>.fromEither(result));
   }

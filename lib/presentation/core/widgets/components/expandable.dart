@@ -288,7 +288,7 @@ class ExpandableTheme extends StatelessWidget {
 class ExpandableNotifier extends StatefulWidget {
   const ExpandableNotifier({
     // An optional key
-    Key? key,
+    super.key,
 
     /// If the controller is not provided, it's created with the initial value of `initialExpanded`.
     this.controller,
@@ -298,8 +298,7 @@ class ExpandableNotifier extends StatefulWidget {
 
     /// The child can be any widget which contains [Expandable] widgets in its widget tree.
     required this.child,
-  })  : assert(!(controller != null && initialExpanded != null)),
-        super(key: key);
+  }) : assert(!(controller != null && initialExpanded != null));
 
   final ExpandableController? controller;
   final bool? initialExpanded;
@@ -343,8 +342,8 @@ class _ExpandableNotifierState extends State<ExpandableNotifier> {
 class _ExpandableControllerNotifier extends InheritedNotifier<ExpandableController> {
   const _ExpandableControllerNotifier({
     required ExpandableController? controller,
-    required Widget child,
-  }) : super(notifier: controller, child: child);
+    required super.child,
+  }) : super(notifier: controller);
 }
 
 /// Makes an [ExpandableController] available to the widget subtree.
@@ -352,8 +351,8 @@ class _ExpandableControllerNotifier extends InheritedNotifier<ExpandableControll
 class _ExpandableThemeNotifier extends InheritedWidget {
   const _ExpandableThemeNotifier({
     required this.themeData,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   final ExpandableThemeData? themeData;
 
@@ -396,12 +395,12 @@ class ExpandableController extends ValueNotifier<bool> {
 /// The state is determined by an instance of [ExpandableController] provided by [ScopedModel]
 class Expandable extends StatelessWidget {
   const Expandable({
-    Key? key,
+    super.key,
     required this.collapsed,
     required this.expanded,
     this.controller,
     this.theme,
-  }) : super(key: key);
+  });
 
   /// Whe widget to show when collapsed
   final Widget collapsed;
@@ -475,14 +474,14 @@ enum ExpandablePanelBodyAlignment {
 /// A configurable widget for showing user-expandable content with an optional expand button.
 class ExpandablePanel extends StatelessWidget {
   const ExpandablePanel({
-    Key? key,
+    super.key,
     this.header,
     required this.collapsed,
     required this.expanded,
     this.controller,
     this.builder,
     this.theme,
-  }) : super(key: key);
+  });
 
   /// If specified, the header is always shown, and the expandable part is shown under the header
   final Widget? header;
@@ -761,12 +760,12 @@ class ExpandableButton extends StatelessWidget {
 /// * [RenderObject.showOnScreen]
 class ScrollOnExpand extends StatefulWidget {
   const ScrollOnExpand({
-    Key? key,
+    super.key,
     required this.child,
     this.scrollOnExpand = true,
     this.scrollOnCollapse = true,
     this.theme,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

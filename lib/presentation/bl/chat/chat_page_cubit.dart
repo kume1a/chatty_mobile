@@ -26,7 +26,7 @@ class ChatPageCubit extends Cubit<DataState<FetchFailure, Chat>>
     this._fileDownloader,
     this._fetchFailureNotifier,
     this._toastNotifier,
-  ) : super(const DataState<FetchFailure, Chat>.idle());
+  ) : super(DataState<FetchFailure, Chat>.idle());
 
   final ChatRepository _chatRepository;
   final EventBus _eventBus;

@@ -9,7 +9,7 @@ import '../../../core/values/assets.dart';
 import '../../../core/widgets/common/default_back_button.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ChatAppBar({Key? key}) : super(key: key);
+  const ChatAppBar({super.key});
 
   @override
   Size get preferredSize => const Size(0, 60);
@@ -57,7 +57,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _UserProfileImage extends StatelessWidget {
-  const _UserProfileImage({Key? key}) : super(key: key);
+  const _UserProfileImage();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _UserProfileImage extends StatelessWidget {
           placeholderAssetPath: Assets.imageDefaultProfile,
           width: 36,
           height: 36,
-          borderRadius: 2,
+          borderRadius: BorderRadius.circular(2),
         );
       },
     );

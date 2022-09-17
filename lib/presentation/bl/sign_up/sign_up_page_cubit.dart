@@ -15,11 +15,11 @@ part 'sign_up_page_cubit.freezed.dart';
 class SignUpPageState with _$SignUpPageState {
   const factory SignUpPageState({
     required bool showErrors,
-    required NameVVO firstName,
-    required NameVVO lastName,
-    required EmailVVO email,
-    required PasswordVVO password,
-    required RepeatedPasswordVVO repeatedPassword,
+    required Name firstName,
+    required Name lastName,
+    required Email email,
+    required Password password,
+    required RepeatedPassword repeatedPassword,
     required bool agreedToConditions,
     required bool isPasswordFieldObscured,
     required bool isRepeatedPasswordFieldObscured,
@@ -27,11 +27,11 @@ class SignUpPageState with _$SignUpPageState {
 
   factory SignUpPageState.initial() => SignUpPageState(
         showErrors: false,
-        firstName: NameVVO.empty(),
-        lastName: NameVVO.empty(),
-        email: EmailVVO.empty(),
-        password: PasswordVVO.empty(),
-        repeatedPassword: RepeatedPasswordVVO.empty(),
+        firstName: Name.empty(),
+        lastName: Name.empty(),
+        email: Email.empty(),
+        password: Password.empty(),
+        repeatedPassword: RepeatedPassword.empty(),
         agreedToConditions: false,
         isPasswordFieldObscured: true,
         isRepeatedPasswordFieldObscured: true,
@@ -54,21 +54,21 @@ class SignUpPageCubit extends Cubit<SignUpPageState> {
 
   String _repeatedPasswordValue = '';
 
-  void onFirstNameChanged(String value) => emit(state.copyWith(firstName: NameVVO(value)));
+  void onFirstNameChanged(String value) => emit(state.copyWith(firstName: Name(value)));
 
-  void onLastNameChanged(String value) => emit(state.copyWith(lastName: NameVVO(value)));
+  void onLastNameChanged(String value) => emit(state.copyWith(lastName: Name(value)));
 
-  void onEmailChanged(String value) => emit(state.copyWith(email: EmailVVO(value)));
+  void onEmailChanged(String value) => emit(state.copyWith(email: Email(value)));
 
   void onPasswordChanged(String value) => emit(state.copyWith(
-        password: PasswordVVO(value),
-        repeatedPassword: RepeatedPasswordVVO(value, _repeatedPasswordValue),
+        password: Password(value),
+        repeatedPassword: RepeatedPassword(value, _repeatedPasswordValue),
       ));
 
   void onRepeatedPasswordChanged(String value) {
     _repeatedPasswordValue = value;
     emit(state.copyWith(
-      repeatedPassword: RepeatedPasswordVVO(state.password.get ?? '', value),
+      repeatedPassword: RepeatedPassword(state.password.get ?? '', value),
     ));
   }
 
@@ -88,11 +88,11 @@ class SignUpPageCubit extends Cubit<SignUpPageState> {
   Future<void> onSignUpPressed() async {
     emit(state.copyWith(showErrors: true));
 
-    if (!state.firstName.isValid ||
-        !state.lastName.isValid ||
-        !state.email.isValid ||
-        !state.password.isValid ||
-        !state.repeatedPassword.isValid ||
+    if (state.firstName.invalid ||
+        state.lastName.invalid ||
+        state.email.invalid ||
+        state.password.invalid ||
+        state.repeatedPassword.invalid ||
         !state.agreedToConditions) {
       return;
     }

@@ -6,7 +6,7 @@ import '../../../bl/profile/profile_page_cubit.dart';
 import '../../../i18n/translation_keys.dart';
 
 class ButtonLogout extends StatelessWidget {
-  const ButtonLogout({Key? key}) : super(key: key);
+  const ButtonLogout({super.key});
 
   @override
   Widget build(BuildContext context) {

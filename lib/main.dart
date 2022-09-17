@@ -27,8 +27,8 @@ Future<void> main() async {
 
   runApp(const App());
 
-  VVOConfig.passwordVVOConfig.minLength = 6;
-  VVOConfig.nameVVOConfig.minLength = 2;
+  VVOConfig.password.minLength = 6;
+  VVOConfig.name.minLength = 2;
 }
 
 final Logger logger = Logger();
