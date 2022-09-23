@@ -19,12 +19,11 @@ class FieldLastName extends StatelessWidget {
         counterText: '',
       ),
       onChanged: context.read<SignUpPageCubit>().onLastNameChanged,
-      validator: (_) => context.read<SignUpPageCubit>().state.lastName.value.fold(
+      validator: (_) => context.read<SignUpPageCubit>().state.lastName.failureToString(
             (NameFailure l) => l.when(
               empty: () => TkValidationError.fieldIsRequired.i18n,
               tooShort: () => TkValidationError.shortName.i18n,
             ),
-            (_) => null,
           ),
     );
   }

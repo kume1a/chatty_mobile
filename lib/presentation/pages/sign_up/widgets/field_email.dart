@@ -19,12 +19,11 @@ class FieldEmail extends StatelessWidget {
         counterText: '',
       ),
       onChanged: context.read<SignUpPageCubit>().onEmailChanged,
-      validator: (_) => context.read<SignUpPageCubit>().state.email.value.fold(
+      validator: (_) => context.read<SignUpPageCubit>().state.email.failureToString(
             (ValueFailure l) => l.when(
               empty: () => TkValidationError.fieldIsRequired.i18n,
               invalid: () => TkValidationError.invalidEmail.i18n,
             ),
-            (_) => null,
           ),
     );
   }
